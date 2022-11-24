@@ -115,6 +115,7 @@ namespace BtrVol
             trackBarStart.Enabled = true;
             trackBarEnd.Enabled = true;
             numericUpDownDuration.Enabled = true;
+            trackBarInterval.Enabled = true;
             radioButton1.Enabled = true;
             radioButton2.Enabled = true;
             radioButton3.Enabled = true;
@@ -131,6 +132,7 @@ namespace BtrVol
             trackBarStart.Enabled = false;
             trackBarEnd.Enabled = false;
             numericUpDownDuration.Enabled = false;
+            trackBarInterval.Enabled = false;
             radioButton1.Enabled = false;
             radioButton2.Enabled = false;
             radioButton3.Enabled = false;
