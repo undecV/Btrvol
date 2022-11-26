@@ -323,7 +323,7 @@
             this.trackBarInterval.Value = 100;
             this.trackBarInterval.Scroll += new System.EventHandler(this.trackBarInterval_Scroll);
             // 
-            // Form1
+            // BtrVolForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -349,7 +349,7 @@
             this.Controls.Add(this.labelNumericUpDownStart);
             this.Controls.Add(this.plotView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "BtrVolForm";
             this.Text = "BtrVol";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarStart)).EndInit();

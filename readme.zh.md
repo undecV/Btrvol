@@ -36,3 +36,4 @@ Present by: [undecV](https://github.com/undecv)
 
 - [AudioSwitcher](https://github.com/xenolightning/AudioSwitcher) (MS-PL)
 - [OxyPlot](https://github.com/oxyplot/oxyplot) (MIT)
+- [Windows API Code Pack](https://www.nuget.org/packages/Microsoft.WindowsAPICodePack-Shell)

@@ -2,10 +2,8 @@ using OxyPlot.Series;
 using OxyPlot;
 using OxyPlot.Axes;
 using AudioSwitcher.AudioApi.CoreAudio;
-using System.Threading;
-using System.Xml.Serialization;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 using System.Diagnostics;
+using Microsoft.WindowsAPICodePack.Taskbar;
 
 namespace BtrVol
 {
@@ -48,7 +46,7 @@ namespace BtrVol
             double d = end;
             double t = duration;
             double PI = Math.PI;
-
+            
             switch (volumeContrlMethodSelector) {
                 case vcMethod.Linear:
                     return (x * (d - s) / t) + s;
@@ -63,20 +61,49 @@ namespace BtrVol
             }
         }
 
+        private int simpleVolumeContrlFormula(vcMethod volumeContrlMethodSelector, double time, double start, double end, double duration)
+        {
+            double vol = volumeContrlFormula(volumeContrlMethodSelector, time, start, end, duration) * 100.0;
+
+            if (start < end)
+            {
+                return (int)Math.Floor(vol);
+            }
+            else if (end < start)
+            {
+                return (int)Math.Ceiling(vol);
+            }
+            else
+            {
+                return (int)Math.Round(vol);
+            }
+        }
+
         public void UpdateGraph()
         {
-            Func<double, double> VCFormulaLinear = (x) => volumeContrlFormula(vcMethod.Linear, x, start, end, duration);
-            Func<double, double> VCFormulaCosine = (x) => volumeContrlFormula(vcMethod.Cosine, x, start, end, duration);
-            Func<double, double> VCFormulaHalfCosine = (x) => volumeContrlFormula(vcMethod.HalfCosine, x, start, end, duration);
-            Func<double, double> VCFormulaHalfSine = (x) => volumeContrlFormula(vcMethod.HalfSine, x, start, end, duration);
+            Func<double, double> VCFormulaLinear = (x) => volumeContrlFormula(vcMethod.Linear, x, start, end, duration) * 100.0;
+            Func<double, double> VCFormulaCosine = (x) => volumeContrlFormula(vcMethod.Cosine, x, start, end, duration) * 100.0;
+            Func<double, double> VCFormulaHalfCosine = (x) => volumeContrlFormula(vcMethod.HalfCosine, x, start, end, duration) * 100.0;
+            Func<double, double> VCFormulaHalfSine = (x) => volumeContrlFormula(vcMethod.HalfSine, x, start, end, duration) * 100.0;
+
+            double graphInterval = 0.01;
+            // double intervalSecond = interval / 1000.0;
+            // if (intervalSecond >= duration)
+            // {
+            //     graphInterval = duration;
+            // }
+            // else
+            // {
+            //     graphInterval = intervalSecond;
+            // }
 
             var myModel = new PlotModel { Title = "" };
-            myModel.Series.Add(new FunctionSeries(VCFormulaLinear, 0, duration, 0.01, "Linear"));
-            myModel.Series.Add(new FunctionSeries(VCFormulaCosine, 0, duration, 0.01, "Cosine"));
-            myModel.Series.Add(new FunctionSeries(VCFormulaHalfCosine, 0, duration, 0.01, "Half-Cosine"));
-            myModel.Series.Add(new FunctionSeries(VCFormulaHalfSine, 0, duration, 0.01, "Half-Sine"));
+            myModel.Series.Add(new FunctionSeries(VCFormulaLinear, 0, duration, graphInterval, "Linear"));
+            myModel.Series.Add(new FunctionSeries(VCFormulaCosine, 0, duration, graphInterval, "Cosine"));
+            myModel.Series.Add(new FunctionSeries(VCFormulaHalfCosine, 0, duration, graphInterval, "Half-Cosine"));
+            myModel.Series.Add(new FunctionSeries(VCFormulaHalfSine, 0, duration, graphInterval, "Half-Sine"));
             myModel.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Minimum = 0, Maximum = duration, Title = "" });
-            myModel.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = 0, Maximum = 1, Title = "" });
+            myModel.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = 0, Maximum = 100, Title = "" });
             plotView.Model = myModel;
             plotView.Invalidate();
         }
@@ -120,11 +147,12 @@ namespace BtrVol
             radioButton2.Enabled = true;
             radioButton3.Enabled = true;
             radioButton4.Enabled = true;
-
+            progressBar1.Value = 0;
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
             timer1.Stop();
         }
 
-        private void setBtrVolWorking()
+    private void setBtrVolWorking()
         {
             btrVolCurrentStatus = btrVolStatus.working;
             this.button1.Text = "Stop";
@@ -137,7 +165,8 @@ namespace BtrVol
             radioButton2.Enabled = false;
             radioButton3.Enabled = false;
             radioButton4.Enabled = false;
-
+            progressBar1.Value = 0;
+            TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
             currentTimer = 0;
             timer1.Interval = interval;
 
@@ -150,13 +179,18 @@ namespace BtrVol
             if (currentTimer >= (duration * 1000))
             {
                 defaultPlaybackDevice.Volume = (int)(end * 100);
+                toolStripStatusLabel1.Text = $"Current Volume: {defaultPlaybackDevice.Volume}, done.";
+                progressBar1.Value = 100;
+                TaskbarManager.Instance.SetProgressValue(100, 100);
                 setBtrVolIdle();
                 return;
             }
-            double vol = volumeContrlFormula(vcMethodSelector, currentTimer, start, end, duration * 1000);
-            defaultPlaybackDevice.Volume = (int)(vol * 100);
+            int vol = simpleVolumeContrlFormula(vcMethodSelector, currentTimer, start, end, duration * 1000);
+            defaultPlaybackDevice.Volume = vol;
             toolStripStatusLabel1.Text = "Current Volume: " + defaultPlaybackDevice.Volume;
-            progressBar1.Value = (int)(currentTimer / (duration * 10));
+            int progressPercentage = (int)(currentTimer / (duration * 10));
+            progressBar1.Value = progressPercentage;
+            TaskbarManager.Instance.SetProgressValue(progressPercentage, 100);
             currentTimer += interval;
         }
 
@@ -187,6 +221,7 @@ namespace BtrVol
         {
             interval = this.trackBarInterval.Value;
             this.labelValueInterval.Text = (interval / 1000.0).ToString("0.0");
+            UpdateGraph();
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)

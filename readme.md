@@ -36,3 +36,4 @@ Functions decide how the volume change with time.
 
 - [AudioSwitcher](https://github.com/xenolightning/AudioSwitcher) (MS-PL)
 - [OxyPlot](https://github.com/oxyplot/oxyplot) (MIT)
+- [Windows API Code Pack](https://www.nuget.org/packages/Microsoft.WindowsAPICodePack-Shell)
