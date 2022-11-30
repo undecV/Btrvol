@@ -6,6 +6,8 @@ Adjust the volume gently.
 
 Modify the volume with some beautiful mathematical functions.
 
+For example, slowly lower the volume when you fall asleep.
+
 Present by: [undecV](https://github.com/undecv)
 
 ## Install

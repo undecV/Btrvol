@@ -6,6 +6,8 @@
 
 用幾個妙不可言的數學公式調整音量。
 
+例如，在您入睡的時候緩緩降低音量。
+
 Present by: [undecV](https://github.com/undecv)
 
 ## 安裝
