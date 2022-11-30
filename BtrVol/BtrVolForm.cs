@@ -31,6 +31,7 @@ namespace BtrVol
             this.labelValueStart.Text = this.trackBarStart.Value.ToString();
             this.labelValueEnd.Text = this.trackBarEnd.Value.ToString();
             this.labelValueInterval.Text = (interval / 1000.0).ToString("0.0");
+            progressBar1.Value = 0;
 
             UpdateGraph();
             statVolume();
@@ -134,42 +135,51 @@ namespace BtrVol
             // statBtrVolStatus();
         }
 
+        private void widgetEnabled(bool enabled)
+        {
+            trackBarStart.Enabled = enabled;
+            trackBarEnd.Enabled = enabled;
+            numericUpDownDuration.Enabled = enabled;
+            trackBarInterval.Enabled = enabled;
+            radioButton1.Enabled = enabled;
+            radioButton2.Enabled = enabled;
+            radioButton3.Enabled = enabled;
+            radioButton4.Enabled = enabled;
+        }
+
+        private void setProgress(int progressPercentage)
+        {
+            progressBar1.Value = progressPercentage;
+            TaskbarManager.Instance.SetProgressValue(progressPercentage, 100);
+        }
+
+        private void setVolume(int simpleVolume)
+        {
+            defaultPlaybackDevice.Volume = simpleVolume;
+            toolStripStatusLabel1.Text = $"Current volume: {defaultPlaybackDevice.Volume}";
+        }
+
         private void setBtrVolIdle()
         {
             btrVolCurrentStatus = btrVolStatus.idle;
             this.button1.Text = "Start";
-
-            trackBarStart.Enabled = true;
-            trackBarEnd.Enabled = true;
-            numericUpDownDuration.Enabled = true;
-            trackBarInterval.Enabled = true;
-            radioButton1.Enabled = true;
-            radioButton2.Enabled = true;
-            radioButton3.Enabled = true;
-            radioButton4.Enabled = true;
-            progressBar1.Value = 0;
+            widgetEnabled(true);
+            toolStripStatusLabel1.Text = $"{toolStripStatusLabel1.Text}, stoped.";
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
             timer1.Stop();
         }
 
-    private void setBtrVolWorking()
+            private void setBtrVolWorking()
         {
             btrVolCurrentStatus = btrVolStatus.working;
             this.button1.Text = "Stop";
-
-            trackBarStart.Enabled = false;
-            trackBarEnd.Enabled = false;
-            numericUpDownDuration.Enabled = false;
-            trackBarInterval.Enabled = false;
-            radioButton1.Enabled = false;
-            radioButton2.Enabled = false;
-            radioButton3.Enabled = false;
-            radioButton4.Enabled = false;
-            progressBar1.Value = 0;
+            widgetEnabled(false);
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
+            setProgress(0);
             currentTimer = 0;
+            setVolume((int)(start * 100));
+            toolStripStatusLabel1.Text = $"{toolStripStatusLabel1.Text}, start.";
             timer1.Interval = interval;
-
             timer1.Start();
         }
 
@@ -178,19 +188,15 @@ namespace BtrVol
         {
             if (currentTimer >= (duration * 1000))
             {
-                defaultPlaybackDevice.Volume = (int)(end * 100);
-                toolStripStatusLabel1.Text = $"Current Volume: {defaultPlaybackDevice.Volume}, done.";
-                progressBar1.Value = 100;
-                TaskbarManager.Instance.SetProgressValue(100, 100);
+                setVolume((int)(end * 100));
+                setProgress(100);
                 setBtrVolIdle();
                 return;
             }
             int vol = simpleVolumeContrlFormula(vcMethodSelector, currentTimer, start, end, duration * 1000);
-            defaultPlaybackDevice.Volume = vol;
-            toolStripStatusLabel1.Text = "Current Volume: " + defaultPlaybackDevice.Volume;
+            setVolume(vol);
             int progressPercentage = (int)(currentTimer / (duration * 10));
-            progressBar1.Value = progressPercentage;
-            TaskbarManager.Instance.SetProgressValue(progressPercentage, 100);
+            setProgress(progressPercentage);
             currentTimer += interval;
         }
 
