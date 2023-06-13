@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/vs,csharp,windows,dotnetcore
-# Edit at https://www.toptal.com/developers/gitignore?templates=vs,csharp,windows,dotnetcore
+# Created by https://www.toptal.com/developers/gitignore/api/vs,csharp,windows,dotnetcore,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=vs,csharp,windows,dotnetcore,visualstudiocode
 
 ### Csharp ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -408,6 +408,19 @@ obj/
 /node_modules
 /wwwroot/node_modules
 
+### VisualStudioCode ###
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
 ### vs ###
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
@@ -589,5 +602,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/vs,csharp,windows,dotnetcore
+# End of https://www.toptal.com/developers/gitignore/api/vs,csharp,windows,dotnetcore,visualstudiocode
 
+note*
