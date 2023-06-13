@@ -4,65 +4,132 @@ using OxyPlot.Axes;
 using AudioSwitcher.AudioApi.CoreAudio;
 using System.Diagnostics;
 using Microsoft.WindowsAPICodePack.Taskbar;
+using System.Text.Json;
 
 namespace BtrVol
 {
-
     public partial class BtrVolForm : Form
     {
         CoreAudioDevice defaultPlaybackDevice = new CoreAudioController().DefaultPlaybackDevice;
 
         private string homepage = "https://github.com/undecV/BtrVol";
 
-        // double volume = 0;
-        private double start = 0.2;
-        private double end = 0.8;
-        private long duration = 10;
-        private int interval = 100;
+        public enum VolCtrlMethod { Linear, Cosine, HalfCosine, HalfSine }
+
+        public class BtrVolConfig
+        {
+            public double Start { get; set; }  // 0 to 1
+            public double End { get; set; }  // 0 to 1
+            public long Duration { get; set; }  // second.
+            public int Interval { get; set; }  // ms.
+            public VolCtrlMethod VolCtrlMethod { get; set; }
+        }
+
+        public BtrVolConfig DeepCopyBtrVolConfig(BtrVolConfig originalConfig)
+        {
+            var newConfig = new BtrVolConfig
+            {
+                Start = originalConfig.Start,
+                End = originalConfig.End,
+                Duration = originalConfig.Duration,
+                Interval = originalConfig.Interval,
+                VolCtrlMethod = originalConfig.VolCtrlMethod
+            };
+            return newConfig;
+        }
+
+        private BtrVolConfig defaultConfig = new BtrVolConfig
+        {
+            Start = 0.2,
+            End = 0.6,
+            Duration = 10,
+            Interval = 100,
+            VolCtrlMethod = VolCtrlMethod.Linear,
+        };
+
+        private string configFilePath = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "BtrVol.config.json"
+            );
+        private BtrVolConfig currentConfig;
+
+        private BtrVolConfig LoadConfig(BtrVolConfig defaultConfig)
+        {
+            var config = DeepCopyBtrVolConfig(defaultConfig);
+            bool doSaveConfig = false;
+            if (File.Exists(configFilePath))
+            {
+                try
+                {
+                    var text = File.ReadAllText(configFilePath);
+                    config = JsonSerializer.Deserialize<BtrVolConfig>(text)!;
+                }
+                catch (Exception)
+                {
+                    // Debug.WriteLine("Failed to read config file.");
+                    doSaveConfig = true;
+                }
+            }
+            else { doSaveConfig = true; }
+            if (doSaveConfig) { saveConfig(config, configFilePath); }
+
+            // Debug.WriteLine("Config loaded: " + JsonSerializer.Serialize(config));
+            return config;
+        }
+
+        private void saveConfig(BtrVolConfig config, string dstPath)
+        {
+            string jsonString = JsonSerializer.Serialize(config);
+            File.WriteAllText(dstPath, jsonString);
+        }
+
+        private void applyConfig(BtrVolConfig config)
+        {
+            trackBarStart.Value = (int)(config.Start * 100.0);
+            trackBarEnd.Value = (int)(config.End * 100.0);
+            trackBarInterval.Value = config.Interval;
+            numericUpDownDuration.Value = config.Duration;
+            labelValueStart.Text = trackBarStart.Value.ToString();
+            labelValueEnd.Text = trackBarEnd.Value.ToString();
+            labelValueInterval.Text = (config.Interval / 1000.0).ToString("0.0");
+            progressBar1.Value = 0;
+        }
 
         public BtrVolForm()
         {
             InitializeComponent();
 
-            this.trackBarStart.Value = (int)(start * 100.0);
-            this.trackBarEnd.Value = (int)(end * 100.0);
-            this.trackBarInterval.Value = interval;
-            this.numericUpDownDuration.Value = duration;
-            this.labelValueStart.Text = this.trackBarStart.Value.ToString();
-            this.labelValueEnd.Text = this.trackBarEnd.Value.ToString();
-            this.labelValueInterval.Text = (interval / 1000.0).ToString("0.0");
-            progressBar1.Value = 0;
+            currentConfig = LoadConfig(defaultConfig);
+            applyConfig(currentConfig);
 
             UpdateGraph();
             statVolume();
         }
 
-
-        private enum vcMethod { Linear, Cosine, HalfCosine, HalfSine }
-        private vcMethod vcMethodSelector = vcMethod.Linear;
-        private double volumeContrlFormula(vcMethod volumeContrlMethodSelector, double time, double start, double end, double duration)
+        private double volumeContrlFormula(VolCtrlMethod volumeContrlMethodSelector, double time, double start, double end, double duration)
         {
             double x = time;
             double s = start;
             double d = end;
             double t = duration;
             double PI = Math.PI;
-            
-            switch (volumeContrlMethodSelector) {
-                case vcMethod.Linear:
+
+            switch (volumeContrlMethodSelector)
+            {
+                case VolCtrlMethod.Linear:
                     return (x * (d - s) / t) + s;
-                case vcMethod.Cosine:
+                case VolCtrlMethod.Cosine:
                     return Math.Cos(x * PI / t) * ((s - d) / 2.0) + ((s + d) / 2.0);
-                case vcMethod.HalfCosine:
+                case VolCtrlMethod.HalfCosine:
                     return Math.Cos((x * PI) / (2.0 * t)) * (s - d) + d;
-                case vcMethod.HalfSine:
+                case VolCtrlMethod.HalfSine:
                     return Math.Sin((x * PI) / (2.0 * t)) * (d - s) + s;
                 default:
                     return 0.0;
             }
         }
 
-        private int simpleVolumeContrlFormula(vcMethod volumeContrlMethodSelector, double time, double start, double end, double duration)
+        private int simpleVolumeContrlFormula(VolCtrlMethod volumeContrlMethodSelector, double time, double start, double end, double duration)
         {
             double vol = volumeContrlFormula(volumeContrlMethodSelector, time, start, end, duration) * 100.0;
 
@@ -82,10 +149,14 @@ namespace BtrVol
 
         public void UpdateGraph()
         {
-            Func<double, double> VCFormulaLinear = (x) => volumeContrlFormula(vcMethod.Linear, x, start, end, duration) * 100.0;
-            Func<double, double> VCFormulaCosine = (x) => volumeContrlFormula(vcMethod.Cosine, x, start, end, duration) * 100.0;
-            Func<double, double> VCFormulaHalfCosine = (x) => volumeContrlFormula(vcMethod.HalfCosine, x, start, end, duration) * 100.0;
-            Func<double, double> VCFormulaHalfSine = (x) => volumeContrlFormula(vcMethod.HalfSine, x, start, end, duration) * 100.0;
+            var start = currentConfig.Start;
+            var end = currentConfig.End;
+            var duration = currentConfig.Duration;
+
+            Func<double, double> VCFormulaLinear = (x) => volumeContrlFormula(VolCtrlMethod.Linear, x, start, end, duration) * 100.0;
+            Func<double, double> VCFormulaCosine = (x) => volumeContrlFormula(VolCtrlMethod.Cosine, x, start, end, duration) * 100.0;
+            Func<double, double> VCFormulaHalfCosine = (x) => volumeContrlFormula(VolCtrlMethod.HalfCosine, x, start, end, duration) * 100.0;
+            Func<double, double> VCFormulaHalfSine = (x) => volumeContrlFormula(VolCtrlMethod.HalfSine, x, start, end, duration) * 100.0;
 
             double graphInterval = 0.01;
             // double intervalSecond = interval / 1000.0;
@@ -116,7 +187,7 @@ namespace BtrVol
 
         private void statMethod()
         {
-            toolStripStatusLabel1.Text = "Current Method: " + vcMethodSelector.ToString();
+            this.toolStripStatusLabel1.Text = "Current Method: " + currentConfig.VolCtrlMethod.ToString();
         }
 
         private enum btrVolStatus { idle, working }
@@ -124,7 +195,8 @@ namespace BtrVol
 
         private void button1_Click(object sender, EventArgs e)
         {
-            switch (btrVolCurrentStatus) {
+            switch (btrVolCurrentStatus)
+            {
                 case btrVolStatus.idle:
                     setBtrVolWorking();
                     break;
@@ -156,7 +228,7 @@ namespace BtrVol
         private void setVolume(int simpleVolume)
         {
             defaultPlaybackDevice.Volume = simpleVolume;
-            toolStripStatusLabel1.Text = $"Current volume: {defaultPlaybackDevice.Volume}";
+            this.toolStripStatusLabel1.Text = $"Current volume: {defaultPlaybackDevice.Volume}";
         }
 
         private void setBtrVolIdle()
@@ -164,12 +236,12 @@ namespace BtrVol
             btrVolCurrentStatus = btrVolStatus.idle;
             this.button1.Text = "Start";
             widgetEnabled(true);
-            toolStripStatusLabel1.Text = $"{toolStripStatusLabel1.Text}, stoped.";
+            this.toolStripStatusLabel1.Text = $"{this.toolStripStatusLabel1.Text}, stoped.";
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.NoProgress);
             timer1.Stop();
         }
 
-            private void setBtrVolWorking()
+        private void setBtrVolWorking()
         {
             btrVolCurrentStatus = btrVolStatus.working;
             this.button1.Text = "Stop";
@@ -177,27 +249,27 @@ namespace BtrVol
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
             setProgress(0);
             currentTimer = 0;
-            setVolume((int)(start * 100));
-            toolStripStatusLabel1.Text = $"{toolStripStatusLabel1.Text}, start.";
-            timer1.Interval = interval;
+            setVolume((int)currentConfig.Start * 100);
+            this.toolStripStatusLabel1.Text = $"{this.toolStripStatusLabel1.Text}, start.";
+            timer1.Interval = currentConfig.Interval;
             timer1.Start();
         }
 
         long currentTimer = 0;
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (currentTimer >= (duration * 1000))
+            if (currentTimer >= (currentConfig.Duration * 1000))
             {
-                setVolume((int)(end * 100));
+                setVolume((int)(currentConfig.End * 100));
                 setProgress(100);
                 setBtrVolIdle();
                 return;
             }
-            int vol = simpleVolumeContrlFormula(vcMethodSelector, currentTimer, start, end, duration * 1000);
+            int vol = simpleVolumeContrlFormula(currentConfig.VolCtrlMethod, currentTimer, currentConfig.Start, currentConfig.End, currentConfig.Duration * 1000);
             setVolume(vol);
-            int progressPercentage = (int)(currentTimer / (duration * 10));
+            int progressPercentage = (int)(currentTimer / (currentConfig.Duration * 10));
             setProgress(progressPercentage);
-            currentTimer += interval;
+            currentTimer += currentConfig.Interval;
         }
 
         /*
@@ -206,57 +278,70 @@ namespace BtrVol
 
         private void numericUpDownDuration_ValueChanged(object sender, EventArgs e)
         {
-            duration = (long)this.numericUpDownDuration.Value;
+            currentConfig.Duration = (long)this.numericUpDownDuration.Value;
             UpdateGraph();
         }
 
         private void trackBarStart_Scroll(object sender, EventArgs e)
         {
-            start = (double)this.trackBarStart.Value / 100.0;
+            currentConfig.Start = (double)this.trackBarStart.Value / 100.0;
             this.labelValueStart.Text = this.trackBarStart.Value.ToString();
             UpdateGraph();
         }
 
         private void trackBarEnd_Scroll(object sender, EventArgs e)
         {
-            end = (double)this.trackBarEnd.Value / 100.0;
+            currentConfig.End = (double)this.trackBarEnd.Value / 100.0;
             this.labelValueEnd.Text = this.trackBarEnd.Value.ToString();
             UpdateGraph();
         }
         private void trackBarInterval_Scroll(object sender, EventArgs e)
         {
-            interval = this.trackBarInterval.Value;
-            this.labelValueInterval.Text = (interval / 1000.0).ToString("0.0");
+            currentConfig.Interval = this.trackBarInterval.Value;
+            this.labelValueInterval.Text = (currentConfig.Interval / 1000.0).ToString("0.0");
             UpdateGraph();
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            vcMethodSelector = vcMethod.Linear;
+            currentConfig.VolCtrlMethod = VolCtrlMethod.Linear;
             statMethod();
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            vcMethodSelector = vcMethod.Cosine;
+            currentConfig.VolCtrlMethod = VolCtrlMethod.Cosine;
             statMethod();
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            vcMethodSelector = vcMethod.HalfCosine;
+            currentConfig.VolCtrlMethod = VolCtrlMethod.HalfCosine;
             statMethod();
         }
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            vcMethodSelector = vcMethod.HalfSine;
+            currentConfig.VolCtrlMethod = VolCtrlMethod.HalfSine;
             statMethod();
         }
 
         private void toolStripStatusLabel2_Click(object sender, EventArgs e)
         {
             Process.Start(new ProcessStartInfo(homepage) { UseShellExecute = true });
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                saveConfig(currentConfig, configFilePath);
+                toolStripStatusLabel1.Text = "Configuration saved.";
+            }
+            catch (Exception)
+            {
+                toolStripStatusLabel1.Text = "Configuration save failed.";
+            }
         }
     }
 }

@@ -53,6 +53,7 @@
             this.labelInterval = new System.Windows.Forms.Label();
             this.labelValueInterval = new System.Windows.Forms.Label();
             this.trackBarInterval = new System.Windows.Forms.TrackBar();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarEnd)).BeginInit();
@@ -201,7 +202,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar1.Location = new System.Drawing.Point(88, 343);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(344, 29);
+            this.progressBar1.Size = new System.Drawing.Size(288, 29);
             this.progressBar1.TabIndex = 16;
             this.progressBar1.Value = 50;
             // 
@@ -324,11 +325,23 @@
             this.trackBarInterval.Value = 100;
             this.trackBarInterval.Scroll += new System.EventHandler(this.trackBarInterval_Scroll);
             // 
+            // button2
+            // 
+            this.button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            this.button2.Location = new System.Drawing.Point(382, 343);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(50, 29);
+            this.button2.TabIndex = 20;
+            this.button2.Text = "Save";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += button2_Click;
+            // 
             // BtrVolForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(444, 402);
+            Controls.Add(button2);
             this.Controls.Add(this.labelValueInterval);
             this.Controls.Add(this.trackBarInterval);
             this.Controls.Add(this.radioButton4);
@@ -360,7 +373,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBarInterval)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -387,5 +399,6 @@
         private Label labelValueInterval;
         private TrackBar trackBarInterval;
         private ToolStripStatusLabel toolStripStatusLabel2;
+        private Button button2;
     }
 }
