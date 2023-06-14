@@ -4,9 +4,7 @@ Adjust the volume gently.
 
 > Readme: [English](./readme.md), [正體中文](./readme.zh.md)
 
-Modify the volume with some beautiful mathematical functions.
-
-For example, slowly lower the volume when you fall asleep.
+"Experience unparalleled sound control with our software, leveraging refined sine wave functions for free volume adjustment. Whether you're working, relaxing, or preparing for sleep, you can naturally and smoothly adjust the volume according to your needs, providing you with the most comfortable listening experience." -- ChatGPT 
 
 Present by: [undecV](https://github.com/undecv)
 
