@@ -28,351 +28,335 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BtrVolForm));
-            this.labelNumericUpDownStart = new System.Windows.Forms.Label();
-            this.labelNumericUpDownEnd = new System.Windows.Forms.Label();
-            this.labelNumericUpDownDuration = new System.Windows.Forms.Label();
-            this.numericUpDownDuration = new System.Windows.Forms.NumericUpDown();
-            this.trackBarStart = new System.Windows.Forms.TrackBar();
-            this.trackBarEnd = new System.Windows.Forms.TrackBar();
-            this.labelValueStart = new System.Windows.Forms.Label();
-            this.labelValueEnd = new System.Windows.Forms.Label();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.plotView = new OxyPlot.WindowsForms.PlotView();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.labelInterval = new System.Windows.Forms.Label();
-            this.labelValueInterval = new System.Windows.Forms.Label();
-            this.trackBarInterval = new System.Windows.Forms.TrackBar();
-            this.button2 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDuration)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarStart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarEnd)).BeginInit();
-            this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarInterval)).BeginInit();
-            this.SuspendLayout();
+            labelNumericUpDownStart = new Label();
+            labelNumericUpDownEnd = new Label();
+            labelNumericUpDownDuration = new Label();
+            numericUpDownDuration = new NumericUpDown();
+            trackBarStart = new TrackBar();
+            trackBarEnd = new TrackBar();
+            labelValueStart = new Label();
+            labelValueEnd = new Label();
+            statusStrip1 = new StatusStrip();
+            toolStripStatusLabel1 = new ToolStripStatusLabel();
+            toolStripStatusLabel2 = new ToolStripStatusLabel();
+            button1 = new Button();
+            progressBar1 = new ProgressBar();
+            timer1 = new System.Windows.Forms.Timer(components);
+            radioButton3 = new RadioButton();
+            radioButton2 = new RadioButton();
+            radioButton1 = new RadioButton();
+            radioButton4 = new RadioButton();
+            plotView = new OxyPlot.WindowsForms.PlotView();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            labelInterval = new Label();
+            labelValueInterval = new Label();
+            trackBarInterval = new TrackBar();
+            button2 = new Button();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownDuration).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBarStart).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)trackBarEnd).BeginInit();
+            statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarInterval).BeginInit();
+            SuspendLayout();
             // 
             // labelNumericUpDownStart
             // 
-            this.labelNumericUpDownStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelNumericUpDownStart.AutoSize = true;
-            this.labelNumericUpDownStart.Location = new System.Drawing.Point(12, 211);
-            this.labelNumericUpDownStart.Name = "labelNumericUpDownStart";
-            this.labelNumericUpDownStart.Size = new System.Drawing.Size(43, 20);
-            this.labelNumericUpDownStart.TabIndex = 1;
-            this.labelNumericUpDownStart.Text = "Start:";
+            labelNumericUpDownStart.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            labelNumericUpDownStart.AutoSize = true;
+            labelNumericUpDownStart.Location = new Point(12, 211);
+            labelNumericUpDownStart.Name = "labelNumericUpDownStart";
+            labelNumericUpDownStart.Size = new Size(43, 20);
+            labelNumericUpDownStart.TabIndex = 1;
+            labelNumericUpDownStart.Text = "Start:";
             // 
             // labelNumericUpDownEnd
             // 
-            this.labelNumericUpDownEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelNumericUpDownEnd.AutoSize = true;
-            this.labelNumericUpDownEnd.Location = new System.Drawing.Point(12, 244);
-            this.labelNumericUpDownEnd.Name = "labelNumericUpDownEnd";
-            this.labelNumericUpDownEnd.Size = new System.Drawing.Size(37, 20);
-            this.labelNumericUpDownEnd.TabIndex = 3;
-            this.labelNumericUpDownEnd.Text = "End:";
+            labelNumericUpDownEnd.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            labelNumericUpDownEnd.AutoSize = true;
+            labelNumericUpDownEnd.Location = new Point(12, 244);
+            labelNumericUpDownEnd.Name = "labelNumericUpDownEnd";
+            labelNumericUpDownEnd.Size = new Size(37, 20);
+            labelNumericUpDownEnd.TabIndex = 3;
+            labelNumericUpDownEnd.Text = "End:";
             // 
             // labelNumericUpDownDuration
             // 
-            this.labelNumericUpDownDuration.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelNumericUpDownDuration.AutoSize = true;
-            this.labelNumericUpDownDuration.Location = new System.Drawing.Point(12, 279);
-            this.labelNumericUpDownDuration.Name = "labelNumericUpDownDuration";
-            this.labelNumericUpDownDuration.Size = new System.Drawing.Size(70, 20);
-            this.labelNumericUpDownDuration.TabIndex = 5;
-            this.labelNumericUpDownDuration.Text = "Duration:";
+            labelNumericUpDownDuration.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            labelNumericUpDownDuration.AutoSize = true;
+            labelNumericUpDownDuration.Location = new Point(12, 279);
+            labelNumericUpDownDuration.Name = "labelNumericUpDownDuration";
+            labelNumericUpDownDuration.Size = new Size(70, 20);
+            labelNumericUpDownDuration.TabIndex = 5;
+            labelNumericUpDownDuration.Text = "Duration:";
             // 
             // numericUpDownDuration
             // 
-            this.numericUpDownDuration.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDownDuration.Location = new System.Drawing.Point(118, 277);
-            this.numericUpDownDuration.Maximum = new decimal(new int[] {
-            36000,
-            0,
-            0,
-            0});
-            this.numericUpDownDuration.Name = "numericUpDownDuration";
-            this.numericUpDownDuration.Size = new System.Drawing.Size(200, 27);
-            this.numericUpDownDuration.TabIndex = 6;
-            this.numericUpDownDuration.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDownDuration.ValueChanged += new System.EventHandler(this.numericUpDownDuration_ValueChanged);
+            numericUpDownDuration.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            numericUpDownDuration.Increment = new decimal(new int[] { 60, 0, 0, 0 });
+            numericUpDownDuration.Location = new Point(118, 277);
+            numericUpDownDuration.Maximum = new decimal(new int[] { 36000, 0, 0, 0 });
+            numericUpDownDuration.Name = "numericUpDownDuration";
+            numericUpDownDuration.Size = new Size(200, 27);
+            numericUpDownDuration.TabIndex = 6;
+            numericUpDownDuration.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            numericUpDownDuration.ValueChanged += numericUpDownDuration_ValueChanged;
             // 
             // trackBarStart
             // 
-            this.trackBarStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBarStart.AutoSize = false;
-            this.trackBarStart.Location = new System.Drawing.Point(110, 211);
-            this.trackBarStart.Maximum = 100;
-            this.trackBarStart.Name = "trackBarStart";
-            this.trackBarStart.Size = new System.Drawing.Size(208, 27);
-            this.trackBarStart.TabIndex = 2;
-            this.trackBarStart.Scroll += new System.EventHandler(this.trackBarStart_Scroll);
+            trackBarStart.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            trackBarStart.AutoSize = false;
+            trackBarStart.Location = new Point(110, 211);
+            trackBarStart.Maximum = 100;
+            trackBarStart.Name = "trackBarStart";
+            trackBarStart.Size = new Size(208, 27);
+            trackBarStart.TabIndex = 2;
+            trackBarStart.Scroll += trackBarStart_Scroll;
             // 
             // trackBarEnd
             // 
-            this.trackBarEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBarEnd.AutoSize = false;
-            this.trackBarEnd.Location = new System.Drawing.Point(110, 244);
-            this.trackBarEnd.Maximum = 100;
-            this.trackBarEnd.Name = "trackBarEnd";
-            this.trackBarEnd.Size = new System.Drawing.Size(208, 27);
-            this.trackBarEnd.TabIndex = 4;
-            this.trackBarEnd.Scroll += new System.EventHandler(this.trackBarEnd_Scroll);
+            trackBarEnd.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            trackBarEnd.AutoSize = false;
+            trackBarEnd.Location = new Point(110, 244);
+            trackBarEnd.Maximum = 100;
+            trackBarEnd.Name = "trackBarEnd";
+            trackBarEnd.Size = new Size(208, 27);
+            trackBarEnd.TabIndex = 4;
+            trackBarEnd.Scroll += trackBarEnd_Scroll;
             // 
             // labelValueStart
             // 
-            this.labelValueStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelValueStart.AutoSize = true;
-            this.labelValueStart.Location = new System.Drawing.Point(74, 211);
-            this.labelValueStart.Name = "labelValueStart";
-            this.labelValueStart.Size = new System.Drawing.Size(33, 20);
-            this.labelValueStart.TabIndex = 12;
-            this.labelValueStart.Text = "100";
-            this.labelValueStart.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            labelValueStart.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            labelValueStart.AutoSize = true;
+            labelValueStart.Location = new Point(74, 211);
+            labelValueStart.Name = "labelValueStart";
+            labelValueStart.Size = new Size(33, 20);
+            labelValueStart.TabIndex = 12;
+            labelValueStart.Text = "100";
+            labelValueStart.TextAlign = ContentAlignment.TopRight;
             // 
             // labelValueEnd
             // 
-            this.labelValueEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelValueEnd.AutoSize = true;
-            this.labelValueEnd.Location = new System.Drawing.Point(74, 244);
-            this.labelValueEnd.Name = "labelValueEnd";
-            this.labelValueEnd.Size = new System.Drawing.Size(33, 20);
-            this.labelValueEnd.TabIndex = 13;
-            this.labelValueEnd.Text = "100";
-            this.labelValueEnd.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            labelValueEnd.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            labelValueEnd.AutoSize = true;
+            labelValueEnd.Location = new Point(74, 244);
+            labelValueEnd.Name = "labelValueEnd";
+            labelValueEnd.Size = new Size(33, 20);
+            labelValueEnd.TabIndex = 13;
+            labelValueEnd.Text = "100";
+            labelValueEnd.TextAlign = ContentAlignment.TopRight;
             // 
             // statusStrip1
             // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
-            this.statusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.statusStrip1.Location = new System.Drawing.Point(0, 376);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(444, 26);
-            this.statusStrip1.TabIndex = 14;
-            this.statusStrip1.Text = "statusStrip1";
+            statusStrip1.ImageScalingSize = new Size(20, 20);
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabel2 });
+            statusStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            statusStrip1.Location = new Point(0, 376);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(444, 26);
+            statusStrip1.TabIndex = 14;
+            statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(49, 20);
-            this.toolStripStatusLabel1.Text = "Status";
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(49, 20);
+            toolStripStatusLabel1.Text = "Status";
             // 
             // toolStripStatusLabel2
             // 
-            this.toolStripStatusLabel2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripStatusLabel2.IsLink = true;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(41, 20);
-            this.toolStripStatusLabel2.Text = "Help";
-            this.toolStripStatusLabel2.Click += new System.EventHandler(this.toolStripStatusLabel2_Click);
+            toolStripStatusLabel2.Alignment = ToolStripItemAlignment.Right;
+            toolStripStatusLabel2.IsLink = true;
+            toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            toolStripStatusLabel2.Size = new Size(41, 20);
+            toolStripStatusLabel2.Text = "Help";
+            toolStripStatusLabel2.Click += toolStripStatusLabel2_Click;
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(12, 344);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(70, 29);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Start";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            button1.Location = new Point(12, 344);
+            button1.Name = "button1";
+            button1.Size = new Size(70, 29);
+            button1.TabIndex = 15;
+            button1.Text = "Start";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // progressBar1
             // 
-            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(88, 343);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(288, 29);
-            this.progressBar1.TabIndex = 16;
-            this.progressBar1.Value = 50;
+            progressBar1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            progressBar1.Location = new Point(88, 343);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(288, 29);
+            progressBar1.TabIndex = 16;
+            progressBar1.Value = 50;
             // 
             // timer1
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            timer1.Tick += timer1_Tick;
             // 
             // radioButton3
             // 
-            this.radioButton3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(324, 283);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(108, 24);
-            this.radioButton3.TabIndex = 10;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Half-Cosine";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
+            radioButton3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            radioButton3.AutoSize = true;
+            radioButton3.Location = new Point(324, 283);
+            radioButton3.Name = "radioButton3";
+            radioButton3.Size = new Size(108, 24);
+            radioButton3.TabIndex = 10;
+            radioButton3.TabStop = true;
+            radioButton3.Text = "Half-Cosine";
+            radioButton3.UseVisualStyleBackColor = true;
+            radioButton3.CheckedChanged += radioButton3_CheckedChanged;
             // 
             // radioButton2
             // 
-            this.radioButton2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(324, 253);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(74, 24);
-            this.radioButton2.TabIndex = 9;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Cosine";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            radioButton2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(324, 253);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(74, 24);
+            radioButton2.TabIndex = 9;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "Cosine";
+            radioButton2.UseVisualStyleBackColor = true;
+            radioButton2.CheckedChanged += radioButton2_CheckedChanged;
             // 
             // radioButton1
             // 
-            this.radioButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(324, 223);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(70, 24);
-            this.radioButton1.TabIndex = 8;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Linear";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            radioButton1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            radioButton1.AutoSize = true;
+            radioButton1.Checked = true;
+            radioButton1.Location = new Point(324, 223);
+            radioButton1.Name = "radioButton1";
+            radioButton1.Size = new Size(70, 24);
+            radioButton1.TabIndex = 8;
+            radioButton1.TabStop = true;
+            radioButton1.Text = "Linear";
+            radioButton1.UseVisualStyleBackColor = true;
+            radioButton1.CheckedChanged += radioButton1_CheckedChanged;
             // 
             // radioButton4
             // 
-            this.radioButton4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(324, 313);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(92, 24);
-            this.radioButton4.TabIndex = 11;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Half-Sine";
-            this.radioButton4.UseVisualStyleBackColor = true;
-            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
+            radioButton4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            radioButton4.AutoSize = true;
+            radioButton4.Location = new Point(324, 313);
+            radioButton4.Name = "radioButton4";
+            radioButton4.Size = new Size(92, 24);
+            radioButton4.TabIndex = 11;
+            radioButton4.TabStop = true;
+            radioButton4.Text = "Half-Sine";
+            radioButton4.UseVisualStyleBackColor = true;
+            radioButton4.CheckedChanged += radioButton4_CheckedChanged;
             // 
             // plotView
             // 
-            this.plotView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.plotView.Location = new System.Drawing.Point(0, 0);
-            this.plotView.Name = "plotView";
-            this.plotView.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView.Size = new System.Drawing.Size(444, 205);
-            this.plotView.TabIndex = 0;
-            this.plotView.Text = "plotView2";
-            this.plotView.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
-            this.plotView.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
-            this.plotView.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS;
+            plotView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            plotView.Location = new Point(0, 0);
+            plotView.Name = "plotView";
+            plotView.PanCursor = Cursors.Hand;
+            plotView.Size = new Size(444, 205);
+            plotView.TabIndex = 0;
+            plotView.Text = "plotView2";
+            plotView.ZoomHorizontalCursor = Cursors.SizeWE;
+            plotView.ZoomRectangleCursor = Cursors.SizeNWSE;
+            plotView.ZoomVerticalCursor = Cursors.SizeNS;
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(432, 337);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(0, 0);
-            this.flowLayoutPanel1.TabIndex = 17;
+            flowLayoutPanel1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            flowLayoutPanel1.AutoSize = true;
+            flowLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.Location = new Point(432, 337);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(0, 0);
+            flowLayoutPanel1.TabIndex = 17;
             // 
             // labelInterval
             // 
-            this.labelInterval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelInterval.AutoSize = true;
-            this.labelInterval.Location = new System.Drawing.Point(12, 310);
-            this.labelInterval.Name = "labelInterval";
-            this.labelInterval.Size = new System.Drawing.Size(61, 20);
-            this.labelInterval.TabIndex = 5;
-            this.labelInterval.Text = "Interval:";
+            labelInterval.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            labelInterval.AutoSize = true;
+            labelInterval.Location = new Point(12, 310);
+            labelInterval.Name = "labelInterval";
+            labelInterval.Size = new Size(61, 20);
+            labelInterval.TabIndex = 5;
+            labelInterval.Text = "Interval:";
             // 
             // labelValueInterval
             // 
-            this.labelValueInterval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelValueInterval.AutoSize = true;
-            this.labelValueInterval.Location = new System.Drawing.Point(79, 310);
-            this.labelValueInterval.Name = "labelValueInterval";
-            this.labelValueInterval.Size = new System.Drawing.Size(28, 20);
-            this.labelValueInterval.TabIndex = 19;
-            this.labelValueInterval.Text = "9.9";
-            this.labelValueInterval.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            labelValueInterval.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            labelValueInterval.AutoSize = true;
+            labelValueInterval.Location = new Point(79, 310);
+            labelValueInterval.Name = "labelValueInterval";
+            labelValueInterval.Size = new Size(28, 20);
+            labelValueInterval.TabIndex = 19;
+            labelValueInterval.Text = "9.9";
+            labelValueInterval.TextAlign = ContentAlignment.TopRight;
             // 
             // trackBarInterval
             // 
-            this.trackBarInterval.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBarInterval.AutoSize = false;
-            this.trackBarInterval.Location = new System.Drawing.Point(110, 310);
-            this.trackBarInterval.Maximum = 10000;
-            this.trackBarInterval.Minimum = 100;
-            this.trackBarInterval.Name = "trackBarInterval";
-            this.trackBarInterval.Size = new System.Drawing.Size(208, 27);
-            this.trackBarInterval.SmallChange = 100;
-            this.trackBarInterval.TabIndex = 18;
-            this.trackBarInterval.Value = 100;
-            this.trackBarInterval.Scroll += new System.EventHandler(this.trackBarInterval_Scroll);
+            trackBarInterval.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            trackBarInterval.AutoSize = false;
+            trackBarInterval.Location = new Point(110, 310);
+            trackBarInterval.Maximum = 10000;
+            trackBarInterval.Minimum = 100;
+            trackBarInterval.Name = "trackBarInterval";
+            trackBarInterval.Size = new Size(208, 27);
+            trackBarInterval.SmallChange = 100;
+            trackBarInterval.TabIndex = 18;
+            trackBarInterval.Value = 100;
+            trackBarInterval.Scroll += trackBarInterval_Scroll;
             // 
             // button2
             // 
-            this.button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            this.button2.Location = new System.Drawing.Point(382, 343);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(50, 29);
-            this.button2.TabIndex = 20;
-            this.button2.Text = "Save";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += button2_Click;
+            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button2.Location = new Point(382, 343);
+            button2.Name = "button2";
+            button2.Size = new Size(50, 29);
+            button2.TabIndex = 20;
+            button2.Text = "Save";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // BtrVolForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(444, 402);
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(444, 402);
             Controls.Add(button2);
-            this.Controls.Add(this.labelValueInterval);
-            this.Controls.Add(this.trackBarInterval);
-            this.Controls.Add(this.radioButton4);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton3);
-            this.Controls.Add(this.radioButton1);
-            this.Controls.Add(this.flowLayoutPanel1);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.labelValueEnd);
-            this.Controls.Add(this.labelValueStart);
-            this.Controls.Add(this.trackBarEnd);
-            this.Controls.Add(this.trackBarStart);
-            this.Controls.Add(this.labelInterval);
-            this.Controls.Add(this.labelNumericUpDownDuration);
-            this.Controls.Add(this.numericUpDownDuration);
-            this.Controls.Add(this.labelNumericUpDownEnd);
-            this.Controls.Add(this.labelNumericUpDownStart);
-            this.Controls.Add(this.plotView);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "BtrVolForm";
-            this.Text = "BtrVol";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDuration)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarStart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarEnd)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBarInterval)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            Controls.Add(labelValueInterval);
+            Controls.Add(trackBarInterval);
+            Controls.Add(radioButton4);
+            Controls.Add(radioButton2);
+            Controls.Add(radioButton3);
+            Controls.Add(radioButton1);
+            Controls.Add(flowLayoutPanel1);
+            Controls.Add(progressBar1);
+            Controls.Add(button1);
+            Controls.Add(statusStrip1);
+            Controls.Add(labelValueEnd);
+            Controls.Add(labelValueStart);
+            Controls.Add(trackBarEnd);
+            Controls.Add(trackBarStart);
+            Controls.Add(labelInterval);
+            Controls.Add(labelNumericUpDownDuration);
+            Controls.Add(numericUpDownDuration);
+            Controls.Add(labelNumericUpDownEnd);
+            Controls.Add(labelNumericUpDownStart);
+            Controls.Add(plotView);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "BtrVolForm";
+            Text = "BtrVol";
+            ((System.ComponentModel.ISupportInitialize)numericUpDownDuration).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBarStart).EndInit();
+            ((System.ComponentModel.ISupportInitialize)trackBarEnd).EndInit();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trackBarInterval).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

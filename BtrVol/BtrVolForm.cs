@@ -1,10 +1,11 @@
-using OxyPlot.Series;
+using System.Diagnostics;
+using System.Text.Json;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using OxyPlot;
 using OxyPlot.Axes;
+using OxyPlot.Series;
 using AudioSwitcher.AudioApi.CoreAudio;
-using System.Diagnostics;
-using Microsoft.WindowsAPICodePack.Taskbar;
-using System.Text.Json;
+using OxyPlot.Legends;
 
 namespace BtrVol
 {
@@ -174,8 +175,9 @@ namespace BtrVol
             myModel.Series.Add(new FunctionSeries(VCFormulaCosine, 0, duration, graphInterval, "Cosine"));
             myModel.Series.Add(new FunctionSeries(VCFormulaHalfCosine, 0, duration, graphInterval, "Half-Cosine"));
             myModel.Series.Add(new FunctionSeries(VCFormulaHalfSine, 0, duration, graphInterval, "Half-Sine"));
-            myModel.Axes.Add(new LinearAxis { Position = AxisPosition.Bottom, Minimum = 0, Maximum = duration, Title = "" });
-            myModel.Axes.Add(new LinearAxis { Position = AxisPosition.Left, Minimum = 0, Maximum = 100, Title = "" });
+            myModel.Axes.Add(new LinearAxis { IsPanEnabled = false, IsZoomEnabled = false, Position = AxisPosition.Bottom, Minimum = 0, Maximum = duration });
+            myModel.Axes.Add(new LinearAxis { IsPanEnabled = false, IsZoomEnabled = false, Position = AxisPosition.Left, Minimum = 0, Maximum = 100 });
+            myModel.Legends.Add(new Legend() { LegendPosition = LegendPosition.RightTop });
             plotView.Model = myModel;
             plotView.Invalidate();
         }
@@ -249,7 +251,7 @@ namespace BtrVol
             TaskbarManager.Instance.SetProgressState(TaskbarProgressBarState.Normal);
             setProgress(0);
             currentTimer = 0;
-            setVolume((int)currentConfig.Start * 100);
+            setVolume((int)(currentConfig.Start * 100));
             this.toolStripStatusLabel1.Text = $"{this.toolStripStatusLabel1.Text}, start.";
             timer1.Interval = currentConfig.Interval;
             timer1.Start();
