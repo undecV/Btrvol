@@ -1,4 +1,4 @@
-# ![icon](./BtrVol/resources/icon.32.png) BtrVol
+# ![icon](./resources/icon.32.png) BtrVol
 
 Adjust the volume gently.
 
@@ -16,7 +16,7 @@ Download the portable executable file from the release page.
 
 ## Glance
 
-![Screenshot](./Docs/Screenshot.png)
+![Screenshot](./docs/Screenshot.png)
 
 ## How to use
 

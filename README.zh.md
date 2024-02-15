@@ -16,7 +16,7 @@ Present by: [undecV](https://github.com/undecv)
 
 ## 壹覽無遺
 
-![Screenshot](./Docs/Screenshot.png)
+![Screenshot](./docs/Screenshot.png)
 
 ## 如何使用
 
@@ -27,6 +27,6 @@ Present by: [undecV](https://github.com/undecv)
 函數決定音量如何隨時間變化。
 
 - Linear: 線性，均勻地。
-- Smooth: 餘弦，先緩後急再緩。
+- Smooth: 先緩後急再緩。
 - Gradual: 先緩後急。
 - Rapid: 先急後緩。
