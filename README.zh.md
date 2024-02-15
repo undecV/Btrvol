@@ -18,6 +18,14 @@ Present by: [undecV](https://github.com/undecv)
 
 ![Screenshot](./docs/Screenshot.png)
 
+## 特徵
+
+- 通過 Python 和 Tkinter 建立。（因為 v1 使用的 Winform 在 Windows 11 上啟動速度極慢，慢到讓人不禁思考生命、宇宙及萬事萬物的終極答案）；
+- 四種音調：線性、順滑、輕緩、急遽；
+- 自適應間隔模式，再也不再需要指定間隔；
+- 儲存、讀取設定。
+- CLI 程式。
+
 ## 如何使用
 
 - Start: 初始音量。
@@ -27,6 +35,6 @@ Present by: [undecV](https://github.com/undecv)
 函數決定音量如何隨時間變化。
 
 - Linear: 線性，均勻地。
-- Smooth: 先緩後急再緩。
-- Gradual: 先緩後急。
-- Rapid: 先急後緩。
+- Smooth: 順滑，先緩後急再緩。
+- Gradual: 輕緩，先緩後急。
+- Rapid: 急遽，先急後緩。

@@ -18,6 +18,14 @@ Download the portable executable file from the release page.
 
 ![Screenshot](./docs/Screenshot.png)
 
+## Features
+
+- Built with Python and Tkinter. (Because the Winform used by v1 is extremely slow to start on Windows 11, so slow that one cannot help but think about the ultimate answer to life, the universe, and everything);
+- Four tones: linear, smooth, Gradual, and Rapid;
+- Adaptive interval mode, no longer need to specify intervals;
+- Save and load settings.
+- CLI program.
+
 ## How to use
 
 - Start: Initial volume.
