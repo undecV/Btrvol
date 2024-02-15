@@ -2,7 +2,7 @@
 
 Adjust the volume gently.
 
-> Readme: [English](./readme.md), [正體中文](./readme.zh.md)
+> Readme: [English](./README.md), [正體中文](./README.zh.md)
 
 Gently adjust the volume over time.
 
