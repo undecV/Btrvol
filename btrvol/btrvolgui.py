@@ -15,6 +15,7 @@ from rich.logging import RichHandler
 # from matplotlib.figure import Figure
 # from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
+from btrvol import __version__
 from btrvol.btrvollib.volume_control import VolumeControl
 from btrvol.btrvollib.selectors import BtrvolTone
 from btrvol.btrvollib.btrvol import btrvol
@@ -85,12 +86,15 @@ class MainApp:
         self.volume_end_value_label_value: tk.IntVar
         self.duration_spinbox_value: tk.IntVar
         self.tone_value: tk.IntVar
+        self.version_label_value: tk.StringVar
 
         self.start_button = self.builder.get_object("start_button")
         self.progressbar = self.builder.get_object("progressbar")
 
         self.builder.import_variables(self)
         self.builder.connect_callbacks(self)
+
+        self.version_label_value.set(__version__)
 
     def run(self):
         """Start the gui main loop."""
@@ -99,6 +103,7 @@ class MainApp:
         self.mainwindow.mainloop()
 
     def on_canva_resize(self, event: tk.Event):
+        """on_canva_resize"""
         self.canva_size = (event.width, event.height)
         self.formula_draw()
 
