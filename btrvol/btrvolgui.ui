@@ -2,7 +2,6 @@
 <interface version="1.3">
   <object class="tk.Tk" id="mainwindow" named="True">
     <property name="height">400</property>
-    <property name="iconbitmap">./resources/icon.ico</property>
     <property name="minsize">500|500</property>
     <property name="relief">flat</property>
     <property name="title" translatable="yes">Btrvol</property>

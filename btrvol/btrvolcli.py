@@ -4,9 +4,9 @@ import logging
 import click
 from rich.logging import RichHandler
 
-from btrvol.btrvol import btrvol
-from btrvol.selectors import BtrvolTone, BtrvolMode
-from btrvol.volume_control import VolumeControl
+from btrvollib.btrvol import btrvol
+from btrvollib.selectors import BtrvolTone, BtrvolMode
+from btrvollib.volume_control import VolumeControl
 
 
 logging.basicConfig(level=logging.DEBUG, format="%(message)s", handlers=[RichHandler(),])

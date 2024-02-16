@@ -15,9 +15,9 @@ import matplotlib
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from btrvol.volume_control import VolumeControl
-from btrvol.selectors import BtrvolTone
-from btrvol.btrvol import btrvol
+from btrvollib.volume_control import VolumeControl
+from btrvollib.selectors import BtrvolTone
+from btrvollib.btrvol import btrvol
 
 logging.basicConfig(format="%(message)s", handlers=[RichHandler(),])
 log = logging.getLogger()
