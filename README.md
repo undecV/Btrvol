@@ -1,4 +1,4 @@
-# ![icon](./resources/icon.32.png) BtrVol
+# ![icon](./resources/icon.32.png) Btrvol
 
 Adjust the volume gently.
 
@@ -16,15 +16,16 @@ Download the portable executable file from the release page.
 
 ## Glance
 
-![Screenshot](./docs/Screenshot.png)
+![Screenshot](./docs/Screenshot_v2.1.1.png)
 
 ## Features
 
-- Built with Python and Tkinter. (Because the Winform used by v1 is extremely slow to start on Windows 11, so slow that one cannot help but think about the ultimate answer to life, the universe, and everything);
-- Four tones: linear, smooth, Gradual, and Rapid;
-- Adaptive interval mode, no longer need to specify intervals;
+- Built with Python and Tkinter. (Because the Winform used by v1 is extremely slow to start on Windows 11, so slow that one cannot help but think about the ultimate answer to life, the universe, and everything).
+- Four tones: linear, smooth, Gradual, and Rapid.
+- Adaptive interval mode, no longer need to specify intervals.
 - Save and load settings.
 - CLI program.
+- We drew the interactive chart ourselves.
 
 ## How to use
 
