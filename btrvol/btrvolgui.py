@@ -21,12 +21,12 @@ from btrvollib.btrvol import btrvol
 
 logging.basicConfig(format="%(message)s", handlers=[RichHandler(),])
 log = logging.getLogger()
-log.setLevel(logging.WARNING)
+log.setLevel(logging.DEBUG)
 
 
 PROJECT_PATH = Path(__file__).parent
 PROJECT_UI = PROJECT_PATH / "btrvolgui.ui"
-
+ICON_FILE = PROJECT_PATH / "resources" / "icon.16.ico"
 
 MINIMUM_VOLUME: int = 0
 MAXIMUM_VOLUME: int = 100
@@ -54,7 +54,8 @@ class MainApp:
         self.builder.add_from_file(PROJECT_UI)
         # Main widget
         self.mainwindow = self.builder.get_object("mainwindow", master)
-
+        self.mainwindow.iconbitmap(ICON_FILE)
+    
         self.volume_control = VolumeControl()
         self.continuous_volume_control_thread: Thread | None = None
         self.continuous_volume_control_event: Event = Event()
@@ -64,7 +65,7 @@ class MainApp:
         self._duration: int = 1
         self._tone: BtrvolTone = BtrvolTone.LINEAR
 
-        self.fig = Figure(figsize=(0.5, 0.5), tight_layout=True)
+        self.fig = Figure(figsize=(1, 1))
         matplotlib.rc('xtick', labelsize=8)
         matplotlib.rc('ytick', labelsize=8)
         self.axs = self.fig.add_subplot(111)
