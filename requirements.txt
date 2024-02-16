@@ -1,11 +1,12 @@
 #!python -m pip install -r
 ttkwidgets
 rich
-pyinstaller[build]
 pygubu[gui]
 pygubu-designer[gui]
 pycaw
-matplotlib[gui]
+# matplotlib[gui]
 click
+pyinstaller[build]
 auto-py-to-exe[build]
 setuptools[build]
+# cx_Freeze[build]
