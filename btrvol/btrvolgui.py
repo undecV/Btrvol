@@ -11,13 +11,13 @@ from pathlib import Path
 
 import pygubu
 from rich.logging import RichHandler
-import matplotlib
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+# import matplotlib
+# from matplotlib.figure import Figure
+# from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from btrvollib.volume_control import VolumeControl
-from btrvollib.selectors import BtrvolTone
-from btrvollib.btrvol import btrvol
+from btrvol.btrvollib.volume_control import VolumeControl
+from btrvol.btrvollib.selectors import BtrvolTone
+from btrvol.btrvollib.btrvol import btrvol
 
 logging.basicConfig(format="%(message)s", handlers=[RichHandler(),])
 log = logging.getLogger()
@@ -27,6 +27,7 @@ log.setLevel(logging.DEBUG)
 PROJECT_PATH = Path(__file__).parent
 PROJECT_UI = PROJECT_PATH / "btrvolgui.ui"
 ICON_FILE = PROJECT_PATH / "resources" / "icon.16.ico"
+IMAGE_FILE = PROJECT_PATH / "resources" / "icon.png"
 
 MINIMUM_VOLUME: int = 0
 MAXIMUM_VOLUME: int = 100
@@ -48,6 +49,7 @@ CONFIG_FILE_PATH = application_path / "config.pkl"
 
 class MainApp:
     """GUI of Btrvol."""
+
     def __init__(self, master: Any | None = None):
         self.builder = pygubu.Builder()
         self.builder.add_resource_path(PROJECT_PATH)
@@ -55,7 +57,7 @@ class MainApp:
         # Main widget
         self.mainwindow = self.builder.get_object("mainwindow", master)
         self.mainwindow.iconbitmap(ICON_FILE)
-    
+
         self.volume_control = VolumeControl()
         self.continuous_volume_control_thread: Thread | None = None
         self.continuous_volume_control_event: Event = Event()
@@ -65,13 +67,17 @@ class MainApp:
         self._duration: int = 1
         self._tone: BtrvolTone = BtrvolTone.LINEAR
 
-        self.fig = Figure(figsize=(1, 1))
-        matplotlib.rc('xtick', labelsize=8)
-        matplotlib.rc('ytick', labelsize=8)
-        self.axs = self.fig.add_subplot(111)
-        self.formula_frame = self.builder.get_object("formula_frame")
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self.formula_frame)
-        self.canvas.get_tk_widget().pack(expand=tk.TRUE, fill=tk.BOTH)
+        # self.fig = Figure(figsize=(1, 1))
+        # matplotlib.rc('xtick', labelsize=8)
+        # matplotlib.rc('ytick', labelsize=8)
+        # self.axs = self.fig.add_subplot(111)
+        # self.formula_frame = self.builder.get_object("formula_frame")
+        # self.canvas = FigureCanvasTkAgg(self.fig, master=self.formula_frame)
+        # self.canvas.get_tk_widget().pack(expand=tk.TRUE, fill=tk.BOTH)
+
+        # self.original_image= Image.open(IMAGE_FILE)
+        self.canva = self.builder.get_object("formula_canva")
+        self.canva_size: tuple[int, int] = (0, 0)
 
         self.volume_start_scale_value: tk.DoubleVar
         self.volume_start_value_label_value: tk.IntVar
@@ -88,19 +94,45 @@ class MainApp:
 
     def run(self):
         """Start the gui main loop."""
+        log.debug("Main loop start.")
         self.initial_config()
         self.mainwindow.mainloop()
 
+    def on_canva_resize(self, event: tk.Event):
+        self.canva_size = (event.width, event.height)
+        self.formula_draw()
+
     def formula_draw(self):
         """Draw the figure."""
-        log.debug(self.get_config())
+        self.canva.delete("all")
+        width, height = self.canva_size
+
+        padding_top = 10
+        padding_right = 20
+        padding_bottom = 20
+        padding_left = 30
+
+        self.canva.create_rectangle(padding_left, padding_top, width - padding_right, height - padding_bottom, width=2)
+        self.canva.create_text(padding_left // 2, padding_top, {"text": "100"})
+        self.canva.create_text(padding_left // 2, padding_top + ((height - padding_bottom) // 2),
+                               text="Volume", angle=90)
+        self.canva.create_text(padding_left // 2, height - padding_bottom, {"text": "0"})
+        self.canva.create_text(padding_left, height - (padding_bottom // 2), {"text": "0"})
+        self.canva.create_text(padding_left + ((width - padding_right) // 2), height - (padding_bottom // 2),
+                               text="Duration")
+        self.canva.create_text(width - padding_right, height - (padding_bottom // 2), {"text": str(self.duration)})
+
+        log.debug("%r, %r", width, height)
         volumes, time_points, _, _ = btrvol(self.volume_start, self.volume_end, self.duration, self.tone)
-        self.axs.clear()
-        self.axs.plot(time_points, volumes)
-        self.axs.set_xlim(0, self.duration)
-        self.axs.set_ylim(MINIMUM_VOLUME, MAXIMUM_VOLUME)
-        self.axs.grid()
-        self.canvas.draw()
+
+        x_scale = (width - padding_left - padding_right) / self.duration
+        y_scale = (height - padding_top - padding_bottom) / 100
+        for i in range(len(volumes)-1):
+            x1 = padding_left + int(time_points[i] * x_scale)
+            y1 = height - padding_bottom - int(volumes[i] * y_scale)
+            x2 = padding_left + int(time_points[i+1] * x_scale)
+            y2 = height - padding_bottom - int(volumes[i] * y_scale)
+            self.canva.create_line(x1, y1, x2, y2, width=1)
 
     @property
     def volume_start(self) -> int:
