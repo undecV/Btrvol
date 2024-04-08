@@ -47,6 +47,24 @@ elif __file__:
 CONFIG_FILE_PATH = application_folder / "config.pkl"
 
 
+class TkStringVarHandler(logging.Handler):
+    """
+    A logging handler that updates a Tkinter StringVar with log messages.
+
+    Args:
+        stringvar (tk.StringVar): The Tkinter StringVar to update with log messages.
+        level (int, optional): The logging level for the handler. Defaults to logger.NOTSET.
+    """
+
+    def __init__(self, stringvar: tk.StringVar, level: int = 0) -> None:
+        super().__init__(level)
+        self.stringvar: tk.StringVar = stringvar
+
+    def emit(self, record: logging.LogRecord):
+        if record.levelno >= self.level:
+            self.stringvar.set(self.format(record))
+
+
 class MainApp:
     """GUI of Btrvol."""
 
@@ -82,6 +100,9 @@ class MainApp:
 
         self.version_label_value.set(__version__)
 
+        self.status_label_value: tk.StringVar
+        log.addHandler(TkStringVarHandler(self.status_label_value, logging.INFO))
+
         # Load default configuration
         self.configuration = BtrvolConfiguration()
         self.load_configuration()
@@ -89,7 +110,7 @@ class MainApp:
 
     def run(self):
         """Start the gui main loop."""
-        log.debug("Main loop start.")
+        log.info("Btrvol: Adjust the volume gently.")
         self.mainwindow.mainloop()
 
     def on_canva_resize(self, event: tk.Event):
@@ -243,7 +264,7 @@ class MainApp:
 
     def on_start_button_clicked(self):
         """on_start_button_clicked"""
-        log.debug("continuous_volume_control begins, current configuration: %r", self.configuration)
+        log.debug("Start button clicked, is running: %r.", self.running)
 
         if self.running:
             self.continuous_volume_control_event.set()
@@ -277,11 +298,14 @@ class MainApp:
         volume: int
         interval: float
         # last_stat: tuple[bool, float] | None = None
+
+        log.info("Continuous volume control begins")
+        log.debug("Current configuration: %r", self.configuration)
+
         for volume, time_point, interval in zip(volumes, time_points, intervals):
-            message = f"Next adjustment volume to {volume} in {interval:0.4f} second..."
-            log.info(message)
+            log.info("Next adjustment volume to %3d in %0.4f second...", volume, interval)
             if self.continuous_volume_control_event.wait(interval):
-                log.info("Got break event.")
+                log.info("Continuous volume control interrupted.")
                 break
             # current_stat: tuple[bool, float] = (bool(self.volume_control.mute), float(self.volume_control.volume))
             # if self.running and (last_stat is not None) and (last_stat != current_stat):
@@ -291,12 +315,10 @@ class MainApp:
             self.volume_control.mute = False
             self.volume_control.volume = volume / 100
             # last_stat = (bool(self.volume_control.mute), float(self.volume_control.volume))
-
             self.progressbar["maximum"] = self.configuration.duration
             self.progressbar["value"] = time_point
-
         self.on_continuous_volume_control_end()
-        log.debug("End of continuous volume control.")
+        log.info("Continuous volume control finished.")
         return None
 
     def on_save_button_clicked(self):
@@ -310,6 +332,7 @@ class MainApp:
     def save_configuration(self) -> None:
         """Save configuration to a file."""
         pickle.dump(self.configuration, CONFIG_FILE_PATH.open("wb"))
+        log.info("Configuration saved: %s", CONFIG_FILE_PATH)
 
     def load_configuration(self) -> None:
         """Load configuration from a file."""
@@ -319,6 +342,7 @@ class MainApp:
             assert isinstance(config, BtrvolConfiguration)
             self.configuration = config
             self.on_configuration_change()
+            log.info("Configuration loaded: %s", CONFIG_FILE_PATH)
         except Exception:  # pylint: disable=broad-exception-caught
             log.error("Can not read the config file.")
 
