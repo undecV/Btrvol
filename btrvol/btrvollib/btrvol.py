@@ -4,9 +4,11 @@ import logging
 
 from rich.logging import RichHandler
 
+
+from .configuration import BtrvolConfiguration
 from .formulas import btrvol_formula_inverse, btrvol_formula_simple
 from .selectors import BtrvolTone, BtrvolMode
-from .utilities import cloaed_range, float_closed_range
+from .utilities import closed_float_range
 
 
 logging.basicConfig(level=logging.DEBUG, format="%(message)s", handlers=[RichHandler(),])
@@ -17,40 +19,20 @@ MINIMIUM_INTERVAL: float = 0.1
 
 
 def btrvol(
-    start: int, end: int, duration: int, method: BtrvolTone, minimium_interval: float = MINIMIUM_INTERVAL
+    configuration: BtrvolConfiguration, minimium_interval: float = MINIMIUM_INTERVAL
 ) -> tuple[list[int], list[float], list[float], BtrvolMode]:
-    """
-    Calculates the volume levels and time points for a volume ramp using the BTR (Bellman-Tremblay-Roth) method.
-
-    Args:
-        start (int): Starting volume level (0-100).
-        end (int): Ending volume level (0-100).
-        duration (int): Duration of the volume ramp in seconds.
-        method (BtrvolMethod): The BTR method to use (e.g., `BtrvolMethod.TIME`, `BtrvolMethod.INTERVAL`).
-        minimum_interval (float, optional): Minimum interval between volume changes in seconds.
-            Defaults to `MINIMIUM_INTERVAL`.
-
-    Returns:
-        - `volumes`: A list of volume levels (0-100).
-        - `time_points`: A list of time points in seconds.
-        - `intervals`: A list of intervals between time points in seconds.
-        - The BTR mode used (`BtrvolMode.TIME` or `BtrvolMode.INTERVAL`).
-
-    Raises:
-        ValueError: If any of the arguments are invalid.
-
-    Notes:
-        - The BTR method is a commonly used algorithm for creating smooth volume ramps.
-        - The `minimum_interval` argument ensures that the volume changes frequently enough to avoid audible artifacts.
-        - The function logs debug information about the calculated volumes, time points, and intervals.
-    """
+    """Calculates the volume levels and time points for a volume ramp."""
+    start: int = configuration.volume_start
+    end: int = configuration.volume_end
+    duration: int = configuration.duration
+    tone: BtrvolTone = configuration.tone
 
     mode: BtrvolMode = BtrvolMode.TIME
-    volumes: list[int] = cloaed_range(start, end)
+    volumes: list[int] = list(range(start, end + (1 if start <= end else -1), (1 if start <= end else -1)))
     time_points: list[float] = []
     for volume in volumes:
         time_point: float = \
-            btrvol_formula_inverse(volume, start, end, float(duration), method)
+            btrvol_formula_inverse(volume, start, end, float(duration), tone)
         time_points.append(time_point)
 
     intervals: list[float] = [time_points[0]]
@@ -59,14 +41,14 @@ def btrvol(
     # Fixed interval mode.
     if len(intervals) > 1 and min(intervals[1:]) < minimium_interval:
         mode = BtrvolMode.INTERVAL
-        time_points = list(float_closed_range(0.0, float(duration), minimium_interval))
+        time_points = list(closed_float_range(0.0, float(duration), minimium_interval))
         intervals = [minimium_interval] * len(time_points)
         volumes = []
         for time_point in time_points:
-            volume = btrvol_formula_simple(time_point, start, end, float(duration), method)
+            volume = btrvol_formula_simple(time_point, start, end, float(duration), tone)
             volumes.append(volume)
 
-    log.debug("volumes: %r", volumes)
-    log.debug("time_points: %r", [round(time_point, 4) for time_point in time_points])
-    log.debug("intervals: %r", [round(interval, 4) for interval in intervals])
+    log.debug("Volumes: %r", volumes)
+    log.debug("Time Points: %r", [round(time_point, 4) for time_point in time_points])
+    log.debug("Intervals: %r", [round(interval, 4) for interval in intervals])
     return volumes, time_points, intervals, mode

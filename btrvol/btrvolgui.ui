@@ -3,7 +3,6 @@
   <object class="tk.Tk" id="mainwindow" named="True">
     <property name="height">400</property>
     <property name="minsize">500|400</property>
-    <property name="relief">flat</property>
     <property name="title" translatable="yes">Btrvol</property>
     <property name="width">400</property>
     <child>
@@ -74,7 +73,7 @@
                         </layout>
                         <child>
                           <object class="ttk.Label" id="label1">
-                            <property name="text" translatable="yes">Btrvol2 version: </property>
+                            <property name="text" translatable="yes">Btrvol version: </property>
                             <layout manager="pack">
                               <property name="side">left</property>
                             </layout>
@@ -152,7 +151,7 @@
         <layout manager="pack">
           <property name="expand">false</property>
           <property name="fill">x</property>
-          <property name="side">bottom</property>
+          <property name="side">top</property>
         </layout>
         <child>
           <object class="ttk.Frame" id="frame4">
@@ -520,6 +519,28 @@
                 </layout>
               </object>
             </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Frame" id="frame2">
+        <layout manager="pack">
+          <property name="expand">false</property>
+          <property name="fill">both</property>
+          <property name="padx">8</property>
+          <property name="side">top</property>
+        </layout>
+        <child>
+          <object class="ttk.Label" id="status_label" named="True">
+            <property name="text" translatable="yes">status_label</property>
+            <property name="textvariable">string:status_label_value</property>
+            <property name="width">60</property>
+            <layout manager="pack">
+              <property name="expand">true</property>
+              <property name="fill">both</property>
+              <property name="side">top</property>
+            </layout>
           </object>
         </child>
       </object>
