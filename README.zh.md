@@ -16,7 +16,7 @@ Present by: [undecV](https://github.com/undecv)
 
 ## 壹覽無遺
 
-![Screenshot](./docs/Screenshot_v2.1.1.png)
+![Screenshot](./docs/Screenshot_v2.3.0.png)
 
 ## 特徵
 

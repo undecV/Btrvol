@@ -16,7 +16,7 @@ Download the portable executable file from the release page.
 
 ## Glance
 
-![Screenshot](./docs/Screenshot_v2.1.1.png)
+![Screenshot](./docs/Screenshot_v2.3.0.png)
 
 ## Features
 
