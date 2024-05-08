@@ -21,6 +21,8 @@ from btrvol.btrvollib.utilities import Inset, in_closed_range
 from btrvol.btrvollib.volume_control import VolumeControl
 from btrvol.btrvollib.selectors import BtrvolTone
 from btrvol.btrvollib.btrvol import btrvol
+from btrvol.awthemes import AwthemesStyle
+
 
 logging.basicConfig(format="%(message)s", handlers=[RichHandler(),])
 log = logging.getLogger()
@@ -29,8 +31,8 @@ log.setLevel(logging.DEBUG)
 
 PROJECT_PATH = Path(__file__).parent
 PROJECT_UI = PROJECT_PATH / "btrvolgui.ui"
-ICON_FILE = PROJECT_PATH / "resources" / "icon.16.ico"
-IMAGE_FILE = PROJECT_PATH / "resources" / "icon.png"
+ICON_FILE = PROJECT_PATH / "resources" / "icons" / "icon.16.ico"
+IMAGE_FILE = PROJECT_PATH / "resources" / "icons" / "icon.png"
 
 
 VOLUME_FAST_STEP = 5
@@ -72,9 +74,28 @@ class MainApp:
         self.builder = pygubu.Builder()
         self.builder.add_resource_path(PROJECT_PATH)
         self.builder.add_from_file(PROJECT_UI)
+
         # Main widget
-        self.mainwindow = self.builder.get_object("mainwindow", master)
-        self.mainwindow.iconbitmap(ICON_FILE)
+        self.master = self.builder.get_object("mainwindow", master)
+        self.style = AwthemesStyle(self.master)
+        self.style.theme_use('awdark')
+        self.master.iconbitmap(ICON_FILE)
+
+        self.foreground_color = self.style.lookup('TFrame', "foreground")
+        self.background_color = self.style.lookup('TFrame', "background")
+        self.theme_color = self.style.lookup('TEntry', "focuscolor")
+
+        linklabels = [
+            self.builder.get_object("update_linklabel"),
+            self.builder.get_object("author_linklabel")
+        ]
+        for linklabel in linklabels:
+            linklabel._cursor = "hand2"
+            # linklabel.configure(
+            #     normal_color=self.theme_color,
+            #     hover_color=self.theme_color,
+            #     clicked_color=self.theme_color
+            # )
 
         self.volume_control = VolumeControl()
         self.continuous_volume_control_thread: Thread | None = None
@@ -83,6 +104,7 @@ class MainApp:
 
         self.canva = self.builder.get_object("formula_canva")
         self.canva_size: tuple[int, int] = (0, 0)
+        self.canva.configure(background=self.background_color)
 
         self.volume_start_scale_value: tk.DoubleVar
         self.volume_start_value_label_value: tk.IntVar
@@ -111,7 +133,7 @@ class MainApp:
     def run(self):
         """Start the gui main loop."""
         log.info("Btrvol: Adjust the volume gently.")
-        self.mainwindow.mainloop()
+        self.master.mainloop()
 
     def on_canva_resize(self, event: tk.Event):
         """on_canva_resize"""
@@ -124,16 +146,25 @@ class MainApp:
         width, height = self.canva_size
         padding = Inset(10, 20, 20, 30)
 
-        self.canva.create_rectangle(padding.left, padding.top, width - padding.right, height - padding.bottom, width=2)
-        self.canva.create_text(padding.left // 2, padding.top, {"text": "100"})
-        self.canva.create_text(padding.left // 2, padding.top + ((height - padding.bottom) // 2),
-                               text="Volume", angle=90)
-        self.canva.create_text(padding.left // 2, height - padding.bottom, {"text": "0"})
-        self.canva.create_text(padding.left, height - (padding.bottom // 2), {"text": "0"})
-        self.canva.create_text(padding.left + ((width - padding.right) // 2), height - (padding.bottom // 2),
-                               text="Duration")
-        self.canva.create_text(width - padding.right, height - (padding.bottom // 2),
-                               {"text": str(self.configuration.duration)})
+        self.canva.create_rectangle(
+            padding.left, padding.top, width - padding.right, height - padding.bottom, width=2,
+            outline=self.foreground_color
+        )
+        self.canva.create_text(padding.left // 2, padding.top, text="100", fill=self.foreground_color)
+        self.canva.create_text(
+            padding.left // 2, padding.top + ((height - padding.bottom) // 2),
+            text="Volume", angle=90, fill=self.foreground_color
+        )
+        self.canva.create_text(padding.left // 2, height - padding.bottom, text="0", fill=self.foreground_color)
+        self.canva.create_text(padding.left, height - (padding.bottom // 2), text="0", fill=self.foreground_color)
+        self.canva.create_text(
+            padding.left + ((width - padding.right) // 2), height - (padding.bottom // 2),
+            text="Duration", fill=self.foreground_color
+        )
+        self.canva.create_text(
+            width - padding.right, height - (padding.bottom // 2),
+            text=str(self.configuration.duration), fill=self.foreground_color
+        )
 
         volumes, time_points, _, _ = btrvol(self.configuration)
 
@@ -144,7 +175,7 @@ class MainApp:
             y1 = height - padding.bottom - int(volumes[i] * y_scale)
             x2 = padding.left + int(time_points[i+1] * x_scale)
             y2 = height - padding.bottom - int(volumes[i] * y_scale)
-            self.canva.create_line(x1, y1, x2, y2, width=1)
+            self.canva.create_line(x1, y1, x2, y2, width=1, fill=self.foreground_color)
 
     def on_configuration_change(self):
         """Update UI Widgets when values update."""
