@@ -1,0 +1,9 @@
+- PyPI: [ttkthemes2](https://pypi.org/project/ttkthemes2/#files)
+- GitHub: [thindil/tkBreeze](https://github.com/thindil/tkBreeze?tab=readme-ov-file): Tk version of Breeze and Breeze Dark themes
+- GitHub: [israel-dryer/ttkbootstrap](https://github.com/israel-dryer/ttkbootstrap): A supercharged theme extension for tkinter that enables on-demand modern flat style themes inspired by Bootstrap.
+- GitHub: [TkinterEP/ttkthemes](https://github.com/TkinterEP/ttkthemes): A group of themes for the ttk extenstions for Tkinter
+- Stack Overflow: [tkinter - How to install awdark theme into ttk python](https://stackoverflow.com/q/62927068)
+- Stack Overflow: [Personalize an awhemes theme on Tkinter ttk - Python](https://stackoverflow.com/q/70777918)
+- Stack Overflow: [python - How to add themes?](https://stackoverflow.com/q/54731170/)
+- SourceForge: [tcl-awthemes](https://sourceforge.net/projects/tcl-awthemes/)
+- Tcl Wiki: [List of ttk Themes](https://wiki.tcl-lang.org/page/List+of+ttk+Themes)
