@@ -15,13 +15,14 @@ from pathlib import Path
 import pygubu  # type: ignore
 from rich.logging import RichHandler
 
+from awthemes import AwthemesStyle
+
 from btrvol import __version__
 from btrvol.btrvollib.configuration import BtrvolConfiguration
 from btrvol.btrvollib.utilities import Inset, in_closed_range
 from btrvol.btrvollib.volume_control import VolumeControl
 from btrvol.btrvollib.selectors import BtrvolTone
 from btrvol.btrvollib.btrvol import btrvol
-from btrvol.awthemes import AwthemesStyle
 
 
 logging.basicConfig(format="%(message)s", handlers=[RichHandler(),])
