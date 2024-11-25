@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<interface version="1.3">
+<interface version="1.4" author="PygubuDesigner 0.39.3">
+  <project>
+    <settings />
+    <customwidgets />
+  </project>
   <object class="tk.Tk" id="mainwindow" named="True">
     <property name="height">400</property>
     <property name="minsize">500|400</property>
@@ -372,6 +376,36 @@
               </object>
             </child>
             <child>
+              <object class="ttk.Spinbox" id="duration_spinbox" named="True">
+                <property name="command" type="command" cbtype="simple">on_duration_changed</property>
+                <property name="from_">1</property>
+                <property name="increment">10</property>
+                <property name="justify">left</property>
+                <property name="text" translatable="yes">3600</property>
+                <property name="textvariable">int:duration_spinbox_value</property>
+                <property name="to">86400</property>
+                <property name="validate">all</property>
+                <property name="validatecommand" type="command" cbtype="entry_validate" args="%P">duration_spinbox_validate</property>
+                <bind sequence="&lt;KeyRelease&gt;" handler="on_duration_text_changed" add="" />
+                <layout manager="grid">
+                  <property name="column">3</property>
+                  <property name="row">2</property>
+                  <property name="sticky">ew</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Label" id="duration_value_label" named="True">
+                <property name="compound">top</property>
+                <property name="text" translatable="yes">00:00:00</property>
+                <property name="textvariable">string:duration_value_label_value</property>
+                <layout manager="grid">
+                  <property name="column">4</property>
+                  <property name="row">2</property>
+                </layout>
+              </object>
+            </child>
+            <child>
               <object class="ttk.Button" id="duration_fast_increase_button" named="True">
                 <property name="command" type="command" cbtype="with_wid">on_faster_change_value_clicked</property>
                 <property name="text" translatable="yes">&gt;</property>
@@ -390,26 +424,6 @@
                 <layout manager="grid">
                   <property name="column">6</property>
                   <property name="row">2</property>
-                </layout>
-              </object>
-            </child>
-            <child>
-              <object class="ttk.Spinbox" id="duration_spinbox" named="True">
-                <property name="command" type="command" cbtype="simple">on_duration_changed</property>
-                <property name="from_">1</property>
-                <property name="increment">10</property>
-                <property name="justify">left</property>
-                <property name="text" translatable="yes">3600</property>
-                <property name="textvariable">int:duration_spinbox_value</property>
-                <property name="to">86400</property>
-                <property name="validate">all</property>
-                <property name="validatecommand" type="command" cbtype="entry_validate" args="%P">duration_spinbox_validate</property>
-                <bind sequence="&lt;KeyRelease&gt;" handler="on_duration_text_changed" add="" />
-                <layout manager="grid">
-                  <property name="column">3</property>
-                  <property name="columnspan">2</property>
-                  <property name="row">2</property>
-                  <property name="sticky">ew</property>
                 </layout>
               </object>
             </child>
@@ -506,23 +520,23 @@
                   </object>
                 </child>
                 <child>
-                  <object class="ttk.Button" id="save_button" named="True">
-                    <property name="command" type="command" cbtype="simple">on_save_button_clicked</property>
-                    <property name="text" translatable="yes">Save</property>
-                    <property name="width">0</property>
-                    <layout manager="grid">
-                      <property name="column">3</property>
-                      <property name="row">0</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
                   <object class="ttk.Button" id="load_button" named="True">
                     <property name="command" type="command" cbtype="simple">on_load_button_clicked</property>
                     <property name="text" translatable="yes">Load</property>
                     <property name="width">0</property>
                     <layout manager="grid">
                       <property name="column">2</property>
+                      <property name="row">0</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Button" id="save_button" named="True">
+                    <property name="command" type="command" cbtype="simple">on_save_button_clicked</property>
+                    <property name="text" translatable="yes">Save</property>
+                    <property name="width">0</property>
+                    <layout manager="grid">
+                      <property name="column">3</property>
                       <property name="row">0</property>
                     </layout>
                   </object>

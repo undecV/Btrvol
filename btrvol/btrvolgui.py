@@ -19,7 +19,7 @@ from awthemes import AwthemesStyle
 
 from btrvol import __version__
 from btrvol.btrvollib.configuration import BtrvolConfiguration
-from btrvol.btrvollib.utilities import Inset, in_closed_range
+from btrvol.btrvollib.utilities import Inset, in_closed_range, readable_time
 from btrvol.btrvollib.volume_control import VolumeControl
 from btrvol.btrvollib.selectors import BtrvolTone
 from btrvol.btrvollib.btrvol import btrvol
@@ -42,10 +42,10 @@ DURATION_FAST_STEP = 30
 DURATION_FASTER_STEP = 60
 
 
+application_folder = Path(__file__).parent
 if getattr(sys, 'frozen', False):
     application_folder = Path(sys.executable).parent
-elif __file__:
-    application_folder = Path(__file__).parent
+
 
 CONFIG_FILE_PATH = application_folder / "config.pkl"
 
@@ -112,6 +112,7 @@ class MainApp:
         self.volume_end_scale_value: tk.DoubleVar
         self.volume_end_value_label_value: tk.IntVar
         self.duration_spinbox_value: tk.IntVar
+        self.duration_value_label_value: tk.StringVar
         self.tone_value: tk.IntVar
         self.version_label_value: tk.StringVar
 
@@ -186,6 +187,7 @@ class MainApp:
         self.volume_end_scale_value.set(self.configuration.volume_end)
         self.volume_end_value_label_value.set(self.configuration.volume_end)
         self.duration_spinbox_value.set(self.configuration.duration)
+        self.duration_value_label_value.set(readable_time(self.configuration.duration))
         self.tone_value.set(self.enum_to_tone_value[self.configuration.tone])
         self.formula_draw()
 

@@ -2,11 +2,43 @@
 
 import unittest
 
-from .utilities import Inset, in_closed_range
+from .utilities import Inset, in_closed_range, readable_time
 
 
 # pylint: disable=missing-class-docstring
 # pylint: disable=missing-function-docstring
+
+
+class TestReadableTime(unittest.TestCase):
+    def test_zero_seconds(self):
+        self.assertEqual(readable_time(0), "00:00:00")
+
+    def test_only_seconds(self):
+        self.assertEqual(readable_time(59), "00:00:59")
+
+    def test_only_minutes(self):
+        self.assertEqual(readable_time(3600), "01:00:00")
+
+    def test_mixed_time(self):
+        self.assertEqual(readable_time(3661), "01:01:01")
+
+    def test_large_time(self):
+        self.assertEqual(readable_time(338887), "94:08:07")
+
+    def test_edge_case(self):
+        self.assertEqual(readable_time(86400), "24:00:00")  # Exactly one day
+
+    def test_negative_seconds(self):
+        self.assertEqual(readable_time(-59), "-00:00:59")
+
+    def test_negative_minutes(self):
+        self.assertEqual(readable_time(-3661), "-01:01:01")
+
+    def test_large_negative_time(self):
+        self.assertEqual(readable_time(-338887), "-94:08:07")
+
+    def test_negative_edge_case(self):
+        self.assertEqual(readable_time(-86400), "-24:00:00")  # Exactly negative one day
 
 
 class TestInClosedRange(unittest.TestCase):

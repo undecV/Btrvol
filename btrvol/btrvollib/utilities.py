@@ -4,6 +4,31 @@ from dataclasses import dataclass
 from itertools import count, takewhile
 
 
+def readable_time(second: int) -> str:
+    """
+    Convert a duration in seconds to a human-readable time format (HH:MM:SS).
+    Handles negative durations by prefixing a '-' to the time.
+
+    Args:
+        second (int): The duration in seconds (can be negative).
+
+    Returns:
+        str: The formatted time string in HH:MM:SS format.
+
+    Example:
+        >>> readable_time(338087)
+        '94:08:07'
+        >>> readable_time(-3661)
+        '-01:01:01'
+    """
+    sec = abs(second)
+    hours = sec // 3600
+    minutes = (sec % 3600) // 60
+    seconds = sec % 60
+    time_string = f"{hours:02}:{minutes:02}:{seconds:02}"
+    return f"-{time_string}" if second < 0 else time_string
+
+
 def closed_float_range(start: float, stop: float, step: float) -> takewhile:
     """
     Generates a closed range of floating-point numbers from `start` to `stop` with a step of `step`.
