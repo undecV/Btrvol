@@ -7,7 +7,7 @@
   },
   {
    "optionDest": "filenames",
-   "value": "D:/Workspace/Workshop/Btrvol/btrvol/btrvolgui.py"
+   "value": "D:/Workspace/GitHub/Btrvol/btrvol/btrvolgui.py"
   },
   {
    "optionDest": "onefile",
@@ -19,7 +19,7 @@
   },
   {
    "optionDest": "icon_file",
-   "value": "D:/Workspace/Workshop/Btrvol/resources/icon.ico"
+   "value": "D:/Workspace/GitHub/Btrvol/resources/icon.ico"
   },
   {
    "optionDest": "clean_build",
@@ -55,15 +55,23 @@
   },
   {
    "optionDest": "datas",
-   "value": "D:/Workspace/Workshop/Btrvol/btrvol/btrvolgui.ui;."
+   "value": "D:/Workspace/GitHub/Btrvol/btrvol/btrvolgui.ui;."
   },
   {
    "optionDest": "datas",
-   "value": "D:/Workspace/Workshop/Btrvol/btrvol/resources;resources/"
+   "value": "D:/Workspace/GitHub/Btrvol/btrvol/resources;resources/"
   },
   {
    "optionDest": "collect_all",
    "value": "pygubu"
+  },
+  {
+   "optionDest": "collect_all",
+   "value": "python-awthemes"
+  },
+  {
+   "optionDest": "collect_all",
+   "value": "awthemes"
   }
  ],
  "nonPyinstallerOptions": {
