@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=80", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "btrvol"
+version = "3.0.0rc1"
+description = "Adjust the volume gently."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+  "pycaw>=20240210",
+]
+
+[project.optional-dependencies]
+gui = [
+  "keyboard>=0.13.5",
+  "pygubu>=0.38.2",
+  "python-awthemes>=0.2.1",
+  "ttkwidgets>=0.13.0",
+  "platformdirs>=4.5.0",
+]
+cli = [
+  "click>=8.3.0",
+]
+
+[dependency-groups]
+dev = [
+  "matplotlib>=3.10.7",
+  "types-keyboard>=0.13.2.20250801",
+  "pygubu-designer>=0.41.4",
+  "nox>=2025.5.1",
+  "btrvol[cli,gui]",
+  "pyinstaller>=6.16.0",
+  "auto-py-to-exe>=2.47.0",
+]
+
+[project.scripts]
+btrvol = "btrvol.cli.cli:main"
+
+[project.gui-scripts]
+btrvol-gui = "btrvol.gui.main:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["btrvol*"]
+
+[tool.setuptools.package-data]
+"btrvol.gui" = [
+  "main.ui",
+  "assets/*",
+]
+
+[tool.uv.workspace]
+members = ["."]
+
+[tool.uv.sources]
+btrvol = { workspace = true, editable = true }

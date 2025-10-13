@@ -10,24 +10,27 @@ For example, slowly lower the volume when you fall asleep.
 
 Present by: [undecV](https://github.com/undecv)
 
-## Install
-
-Download the portable executable file from the release page.
-
-## Glance
+## :eyes: Glance
 
 ![Screenshot](./docs/Screenshot_v2.3.0.png)
 
-## Features
+## :magic_wand: Features
 
-- Built with Python and Tkinter. (Because the Winform used by v1 is extremely slow to start on Windows 11, so slow that one cannot help but think about the ultimate answer to life, the universe, and everything).
-- Four tones: linear, smooth, Gradual, and Rapid.
-- Adaptive interval mode, no longer need to specify intervals.
-- Save and load settings.
-- CLI program.
-- We drew the interactive chart ourselves.
+- :snake: Built with **Python** and **Tkinter**.
+- :level_slider: Four tone modes: **Linear**, **Smooth**, **Gradual**, and **Rapid**.
+- :floppy_disk: Save and load your settings.
+- :computer: Includes a **CLI program**.
+- :bar_chart: Custom-built interactive chart for minimal footprint.
+- :new: Light and dark **themes**.
+- :new: Post-action supports **Play / Pause** or **Stop** media.
 
-## How to use
+## :package: Installation
+
+Download the **portable executable** file from the [Release page](../../releases).
+
+> No installation required — just download and run.
+
+## :question: How to use
 
 - Start: Initial volume.
 - End: Target volume.
@@ -35,7 +38,17 @@ Download the portable executable file from the release page.
 
 Functions decide how the volume change with time.
 
-- Linear: uniformly.
-- Smooth: slow, then fast, then slow.
-- Gradual: slow, then fast.
-- Rapid: fast, then slow.
+- Linear: Uniform change
+- Smooth: Slow → Fast → Slow
+- Gradual: Slow → Fast
+- Rapid: Fast → Slow
+
+Configuration files are stored in
+
+```plain
+%appdata%\Local\BtrVol\BtrVol\config.json
+```
+
+## Notes
+
+- The startup is slow due to the security protection mechanism of the operating system.

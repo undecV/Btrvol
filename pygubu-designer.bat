@@ -1,1 +1,1 @@
-start pygubu-designer.exe .\btrvol\btrvolgui.ui
+start pygubu-designer.exe .\src\btrvol\gui\main.ui

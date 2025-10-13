@@ -1,41 +1,54 @@
 # ![icon](./resources/icon.32.png) Btrvol
 
-溫柔地調節音量。
+溫柔地調整音量。
 
-> Readme: [English](./readme.md), [正體中文](./readme.zh.md)
+> 說明文件： [English](./README.md)、[正體中文](./README.zh.md)
 
-隨著時間的推移輕輕調整音量。
+隨時間緩緩地變化音量。
 
-例如，在您入睡的時候緩緩降低音量。
+例如，當你入睡時，讓音量慢慢降低。
 
-Present by: [undecV](https://github.com/undecv)
+製作： [undecV](https://github.com/undecv)
 
-## 安裝
-
-從 Release page 下載便攜執行檔。
-
-## 壹覽無遺
+## :eyes: 一覽
 
 ![Screenshot](./docs/Screenshot_v2.3.0.png)
 
-## 特徵
+## :magic_wand: 功能特色
 
-- 通過 Python 和 Tkinter 建立。（因為 v1 使用的 Winform 在 Windows 11 上啟動速度極慢，慢到讓人不禁思考生命、宇宙及萬事萬物的終極答案）。
-- 四種音調：線性、順滑、輕緩、急遽。
-- 自適應間隔模式，再也不再需要指定間隔。
-- 儲存、讀取設定。
-- CLI 程式。
-- 我們自己繪製了互動式圖表。
+- :snake: 使用 Python 與 Tkinter 製作。
+- :level_slider: 提供四種音量變化模式：線性（Linear）、平滑（Smooth）、漸進（Gradual）、快速（Rapid）。
+- :floppy_disk: 可儲存與載入設定。
+- :computer: 內建 命令列（CLI）程式。
+- :bar_chart: 自行繪製互動式曲線圖，減少套件體積。
+- :new: 支援 亮 / 暗 主題。
+- :new: 結束動作可設定為 播放 / 暫停 或 停止 媒體。
 
-## 如何使用
+## :package: 安裝方式
 
-- Start: 初始音量。
-- End: 目標音量。
-- Duration: 改變音量需要的時間的長度。
+請至 [發佈頁面 (Release page)](../../releases) 下載可攜式執行檔。
 
-函數決定音量如何隨時間變化。
+> 無需安裝，下載後直接執行即可。
 
-- Linear: 線性，均勻地。
-- Smooth: 順滑，先緩後急再緩。
-- Gradual: 輕緩，先緩後急。
-- Rapid: 急遽，先急後緩。
+## :question: 使用說明
+
+- Start（起始音量）：初始音量。  
+- End（目標音量）：要調整至的最終音量。  
+- Duration（持續時間）：完成音量變化所需的時間。
+
+不同的函數模式會決定音量隨時間變化的方式：
+
+- Linear（線性）：均勻變化。  
+- Smooth（平滑）：慢 → 快 → 慢。  
+- Gradual（漸進）：慢 → 快。  
+- Rapid（快速）：快 → 慢。
+
+設定檔儲存在以下路徑：
+
+```plain
+%appdata%\Local\BtrVol\BtrVol\config.json
+````
+
+## 注意事項
+
+-  由於作業系統的安全防護機制，啟動速度可能會略慢，屬於正常現象。
