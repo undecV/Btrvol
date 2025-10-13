@@ -12,7 +12,7 @@
 
 ## :eyes: 一覽
 
-![Screenshot](./docs/Screenshot_v2.3.0.png)
+![Screenshot](./docs/Screenshot_v3.0.0rc1.png)
 
 ## :magic_wand: 功能特色
 

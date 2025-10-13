@@ -12,7 +12,7 @@ Present by: [undecV](https://github.com/undecv)
 
 ## :eyes: Glance
 
-![Screenshot](./docs/Screenshot_v2.3.0.png)
+![Screenshot](./docs/Screenshot_v3.0.0rc1.png)
 
 ## :magic_wand: Features
 
