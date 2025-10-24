@@ -11,9 +11,7 @@ class VolumeControl:
 
     def __init__(self) -> None:
         self._devices = AudioUtilities.GetSpeakers()
-        self._interface = self._devices.Activate(
-            IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-        self._volume = self._interface.QueryInterface(IAudioEndpointVolume)
+        self._volume = self._devices.EndpointVolume
 
     def get_mute(self) -> bool:
         """Gets the current mute state of the speaker.
