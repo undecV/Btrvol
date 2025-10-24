@@ -183,7 +183,9 @@ class MainApp:
                 model = self.deserialize(data)
                 if model.theme not in self.allowed_themes:
                     raise ValueError(f"Unknown theme name: {model.theme}")
-            except (json.JSONDecodeError, ValueError, KeyError) as exception:
+            except (
+                json.JSONDecodeError, AttributeError, ValueError, KeyError
+            ) as exception:
                 logger.error("Failed to load configuration from %s: %s",
                              CONFIG_FILE_PATH, exception)
                 return
@@ -277,13 +279,13 @@ class MainApp:
                 self.model.post_action.serialize()
             )
             self.view.volume_start_scale_value.set(
-                self.model.btrvol.volume_start)
+                self.model.btrvol.start)
             self.view.volume_start_value_label_value.set(
-                self.model.btrvol.volume_start)
+                self.model.btrvol.start)
             self.view.volume_end_scale_value.set(
-                self.model.btrvol.volume_end)
+                self.model.btrvol.end)
             self.view.volume_end_value_label_value.set(
-                self.model.btrvol.volume_end)
+                self.model.btrvol.end)
             self.view.duration_spinbox_value.set(
                 self.model.btrvol.duration)
             self.view.duration_value_label_value.set(
@@ -325,13 +327,13 @@ class MainApp:
 
         def on_volume_start_scale_changed(self, _scale_value) -> None:
             """on_volume_start_scale_changed"""
-            self.model.btrvol.volume_start = \
+            self.model.btrvol.start = \
                 self.view.volume_start_scale_value.get()
             self.on_configuration_change()
 
         def on_volume_end_scale_changed(self, _scale_value) -> None:
             """on_volume_end_scale_changed"""
-            self.model.btrvol.volume_end = \
+            self.model.btrvol.end = \
                 self.view.volume_end_scale_value.get()
             self.on_configuration_change()
 
@@ -387,12 +389,12 @@ class MainApp:
             match target:
                 case "volume_start":
                     new_value = min(
-                        max(0, self.model.btrvol.volume_start + delta), 100)
-                    self.model.btrvol.volume_start = new_value
+                        max(0, self.model.btrvol.start + delta), 100)
+                    self.model.btrvol.start = new_value
                 case "volume_end":
                     new_value = min(
-                        max(0, self.model.btrvol.volume_end + delta), 100)
-                    self.model.btrvol.volume_end = new_value
+                        max(0, self.model.btrvol.end + delta), 100)
+                    self.model.btrvol.end = new_value
                 case "duration":
                     new_value = max(1, self.model.btrvol.duration + delta)
                     self.model.btrvol.duration = new_value

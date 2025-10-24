@@ -3,7 +3,7 @@
 # pylint: disable=missing-function-docstring
 import unittest
 
-from btrvol_lib.volume_control import VolumeControl
+from btrvol.core.volume_control import VolumeControl
 
 
 class VolumeControlTest(unittest.TestCase):

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, RadioButtons
-from btrvol_lib.btrvol import BtrVol
+from btrvol.core.btrvol import BtrVol
 
 # 初始參數
 init_start = 20

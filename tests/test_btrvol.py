@@ -7,7 +7,7 @@ import logging
 import unittest
 from itertools import product
 
-from btrvol_lib.btrvol import BtrVol
+from btrvol.core.btrvol import BtrVol
 
 
 logger = logging.getLogger(__name__)
@@ -26,8 +26,8 @@ class TestBtrVol(unittest.TestCase):
             tone=tone, minimum_interval_threshold=minimum_interval_threshold
         )
 
-        self.assertEqual(btrvol.volume_start, volume_start)
-        self.assertEqual(btrvol.volume_end, volume_end)
+        self.assertEqual(btrvol.start, volume_start)
+        self.assertEqual(btrvol.end, volume_end)
         self.assertEqual(btrvol.duration, duration)
         self.assertEqual(btrvol.tone, tone)
         self.assertEqual(btrvol.minimum_interval_threshold,

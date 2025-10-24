@@ -59,3 +59,6 @@ members = ["."]
 
 [tool.uv.sources]
 btrvol = { workspace = true, editable = true }
+
+[tool.ruff]
+line-length = 79

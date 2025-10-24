@@ -14,6 +14,42 @@ Real: TypeAlias = int | float | Fraction
 RealT = TypeVar("RealT", int, float, Fraction)
 
 
+def clamp(value: RealT, closing_range: tuple[Real, Real]) -> RealT:
+    """Clamp a value within a specified closing range."""
+    lo, hi = sorted(closing_range)
+    if value < lo:
+        value = type(value)(lo)
+    if value > hi:
+        value = type(value)(hi)
+    return value
+
+
+def assert_in_range(
+    value: RealT, closing_range: tuple[Real, Real], name: str
+) -> None:
+    """Assert that a value is within a specified closing range."""
+    lo, hi = sorted(closing_range)
+    if not lo <= value <= hi:
+        raise ValueError(
+            f"{name} must be between {lo} and {hi}."
+        )
+
+
+def serialize_fraction(value: Fraction) -> dict:
+    """Serialize a Fraction to a dictionary."""
+    return {
+        "numerator": value.numerator,
+        "denominator": value.denominator,
+    }
+
+
+def deserialize_fraction(data: dict, default: Fraction) -> Fraction:
+    """Deserialize a dictionary to a Fraction."""
+    numerator = data.get("numerator", default.numerator)
+    denominator = data.get("denominator", default.denominator)
+    return Fraction(numerator, denominator)
+
+
 class BtrVol:
     """
     BtrVol: A class to calculate volume levels and time points for smooth
@@ -29,124 +65,6 @@ class BtrVol:
     _time_points: list[float]
     _time_intervals: list[float]
 
-    class Config:
-        """BtrVol Configuration with Validation."""
-        _start: int
-        _end: int
-        _duration: int
-        _tone: BtrVol.Tone
-        _minimum_interval_threshold: Fraction = MINIMUM_INTERVAL_THRESHOLD
-
-        @property
-        def start(self) -> int:
-            """Volume adjustment start value, between [0, 100]."""
-            return self._start
-
-        @start.setter
-        def start(self, value: int):
-            if not 0 <= value <= 100:
-                raise ValueError("Start volume must be between 0 and 100.")
-            self._start = value
-
-        def safe_set_start(self, value: int) -> int:
-            """Set start volume without raising ValueError."""
-            self.start = min(max(value, 0), 100)
-            return self.start
-
-        @property
-        def end(self) -> int:
-            """Volume adjustment end value, between [0, 100]."""
-            return self._end
-
-        @end.setter
-        def end(self, value: int):
-            if not 0 <= value <= 100:
-                raise ValueError("End volume must be between 0 and 100.")
-            self._end = value
-
-        def safe_set_end(self, value: int) -> int:
-            """Set end volume without raising ValueError."""
-            self.end = min(max(value, 0), 100)
-            return self.end
-
-        @property
-        def duration(self) -> int:
-            """Volume adjustment duration, larger than 0."""
-            return self._duration
-
-        @duration.setter
-        def duration(self, value: int):
-            if not 0 < value:
-                raise ValueError("Duration must be larger than 0.")
-            self._duration = value
-
-        def safe_set_duration(self, value: int) -> int:
-            """Set duration without raising ValueError."""
-            self.duration = max(value, 1)
-            return self.duration
-
-        @property
-        def tone(self) -> BtrVol.Tone:
-            """Volume adjustment tone, one of `BtrVol.Tone`."""
-            return self._tone
-
-        @tone.setter
-        def tone(self, value: BtrVol.Tone):
-            self._tone = value
-
-        @property
-        def minimum_interval_threshold(self) -> Fraction:
-            """
-            Minimum interval between volume adjustments.
-            When the calculated interval is less than this value,
-            switch to fixed interval mode.
-            """
-            return self._minimum_interval_threshold
-
-        @minimum_interval_threshold.setter
-        def minimum_interval_threshold(self, value: Fraction):
-            if not 0.01 <= value <= 1:
-                raise ValueError(
-                    "Minimum interval threshold must be in the range"
-                    "`[0.01, 1]`."
-                )
-            self._minimum_interval_threshold = value
-
-        def __init__(
-            self, start: int, end: int, duration: int, tone: BtrVol.Tone,
-            minimum_interval_threshold: Fraction = MINIMUM_INTERVAL_THRESHOLD
-        ):
-            self.start = start
-            self.end = end
-            self.duration = duration
-            self.tone = tone
-            self.minimum_interval_threshold = minimum_interval_threshold
-
-        def serialize(self) -> dict:
-            """Serialize the configuration to a dictionary."""
-            return {
-                "start": self.start,
-                "end": self.end,
-                "duration": self.duration,
-                "tone": self.tone.name,
-                "minimum_interval_threshold": float(
-                    self.minimum_interval_threshold
-                )
-            }
-
-        @classmethod
-        def deserialize(cls, data: dict) -> BtrVol.Config:
-            """Deserialize the configuration from a dictionary."""
-            return cls(
-                start=data.get("start", 20),
-                end=data.get("end", 80),
-                duration=data.get("duration", 42),
-                tone=BtrVol.Tone[data.get("tone", "LINEAR")],
-                minimum_interval_threshold=Fraction(
-                    data.get("minimum_interval_threshold", 0.1)
-                )
-            )
-
     class Tone(enum.StrEnum):
         """Tone Selector for BtrVol Formulas."""
         LINEAR = enum.auto()
@@ -158,6 +76,128 @@ class BtrVol:
         """Mode Selector for BtrVol Formulas."""
         INTERVAL = enum.auto()
         TIME = enum.auto()
+
+    class Config:
+        """Configuration for BtrVol."""
+        _start: int
+        _end: int
+        _duration: int
+        _tone: BtrVol.Tone
+        _minimum_interval_threshold: Fraction
+
+        _RANGE_START: tuple[Real, Real] = (0, 100)
+        _RANGE_END: tuple[Real, Real] = (0, 100)
+        _RANGE_DURATION: tuple[Real, Real] = (1, float('inf'))
+        _RANGE_MINIMUM_INTERVAL_THRESHOLD: tuple[Real, Real] = \
+            (Fraction(1, 100), Fraction(1, 1))
+
+        @property
+        def start(self) -> int:
+            """Volume adjustment start value, between 0 and 100."""
+            return self._start
+
+        @start.setter
+        def start(self, value: int) -> None:
+            assert_in_range(value, self._RANGE_START, "Start volume")
+            self._start = value
+
+        def safe_set_start(self, value: int) -> int:
+            """Set start volume without raising ValueError."""
+            self.start = clamp(value, self._RANGE_START)
+            return self.start
+
+        @property
+        def end(self) -> int:
+            """Volume adjustment end value, between 0 and 100."""
+            return self._end
+
+        @end.setter
+        def end(self, value: int) -> None:
+            assert_in_range(value, self._RANGE_END, "End volume")
+            self._end = value
+
+        def safe_set_end(self, value: int) -> int:
+            """Set end volume without raising ValueError."""
+            self.end = clamp(value, self._RANGE_END)
+            return self.end
+
+        @property
+        def duration(self) -> int:
+            """Duration of the volume adjustment in seconds."""
+            return self._duration
+
+        @duration.setter
+        def duration(self, value: int) -> None:
+            assert_in_range(value, self._RANGE_DURATION, "Duration")
+            self._duration = value
+
+        def safe_set_duration(self, value: int) -> int:
+            """Set duration without raising ValueError."""
+            self.duration = clamp(value, self._RANGE_DURATION)
+            return self.duration
+
+        @property
+        def tone(self) -> BtrVol.Tone:
+            """Tone selector for the volume adjustment formula."""
+            return self._tone
+
+        @tone.setter
+        def tone(self, value: BtrVol.Tone) -> None:
+            self._tone = value
+
+        @property
+        def minimum_interval_threshold(self) -> Fraction:
+            """
+            Minimum interval threshold as a Fraction between
+            1/100 (0.01) and 1/1 (1.0).
+            """
+            return self._minimum_interval_threshold
+
+        @minimum_interval_threshold.setter
+        def minimum_interval_threshold(self, value: Fraction) -> None:
+            assert_in_range(
+                value,
+                self._RANGE_MINIMUM_INTERVAL_THRESHOLD,
+                "Minimum interval threshold"
+            )
+            self._minimum_interval_threshold = value
+
+        def __init__(
+            self, start: int = 20, end: int = 80, duration: int = 3600,
+            tone: BtrVol.Tone | None = None,
+            minimum_interval_threshold: Fraction = Fraction(1, 10)
+        ):
+            self.start = start
+            self.end = end
+            self.duration = duration
+            self.tone = tone or BtrVol.Tone.LINEAR
+            self.minimum_interval_threshold = minimum_interval_threshold
+
+        def serialize(self) -> dict:
+            """Serialize the configuration to a dictionary."""
+            return {
+                "start": self.start,
+                "end": self.end,
+                "duration": self.duration,
+                "tone": self.tone.name,
+                "minimum_interval_threshold":
+                serialize_fraction(self.minimum_interval_threshold),
+            }
+
+        @classmethod
+        def deserialize(cls, data: dict) -> BtrVol.Config:
+            """Deserialize the configuration from a dictionary."""
+            default = cls()
+            return cls(
+                start=data.get("start", default.start),
+                end=data.get("end", default.end),
+                duration=data.get("duration", default.duration),
+                tone=BtrVol.Tone[data.get("tone", default.tone.name)],
+                minimum_interval_threshold=deserialize_fraction(
+                    data.get("minimum_interval_threshold", {}),
+                    default.minimum_interval_threshold
+                ),
+            )
 
     def __init__(
         self, start: int, end: int, duration: int, tone: BtrVol.Tone,
@@ -197,32 +237,32 @@ class BtrVol:
         self._calc()
 
     @property
-    def volume_start(self) -> int:
+    def start(self) -> int:
         """Volume adjustment start value, between [0, 100]."""
         return self._config.start
 
-    @volume_start.setter
-    def volume_start(self, value: int):
+    @start.setter
+    def start(self, value: int):
         self._config.start = value
         self._calc()
 
-    def safe_set_volume_start(self, value: int) -> int:
+    def safe_set_start(self, value: int) -> int:
         """Set start volume without raising ValueError."""
         self._config.safe_set_start(value)
         self._calc()
         return self._config.start
 
     @property
-    def volume_end(self) -> int:
+    def end(self) -> int:
         """Volume adjustment end value, between [0, 100]."""
         return self._config.end
 
-    @volume_end.setter
-    def volume_end(self, value: int):
+    @end.setter
+    def end(self, value: int):
         self._config.end = value
         self._calc()
 
-    def safe_set_volume_end(self, value: int) -> int:
+    def safe_set_end(self, value: int) -> int:
         """Set end volume without raising ValueError."""
         self._config.safe_set_end(value)
         self._calc()
@@ -380,8 +420,8 @@ class BtrVol:
         return f"<BtrVol {self._config.serialize()}>"
 
     def _calc(self) -> None:
-        start = self.volume_start
-        end = self.volume_end
+        start = self.start
+        end = self.end
         duration = self.duration
         tone = self.tone
 
@@ -399,7 +439,7 @@ class BtrVol:
 
         match self._mode:
             case BtrVol.Mode.TIME:
-                step = 1 if self.volume_end >= self.volume_start else -1
+                step = 1 if self.end >= self.start else -1
                 volume_levels = list(range(start, end + step, step))
                 for volume in volume_levels:
                     time_point: float = self.volume_to_time(
